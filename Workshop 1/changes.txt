@@ -1,0 +1,5 @@
+Below are the most important points that we changed from the last submission, and these changes are based on peer reviews:
+1- Names of classes are sometimes in small letters and other times capital letters[Fixed]. 
+2-We should not use the + sign beside our attributes because it has more to do with implementation rather than domain modeling[fixed].
+3- We should have a revision history and fees conceptual classes [fixed].
+4-Replacing our arrows with lines instead of arrows[fixed].
