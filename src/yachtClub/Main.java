@@ -1,9 +1,9 @@
-package Main;
+package yachtClub;
 
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.print("HI");
+		// TODO Auto-generated method stub
 
 	}
 
