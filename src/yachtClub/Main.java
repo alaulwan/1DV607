@@ -3,6 +3,7 @@ package yachtClub;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import javafx.application.Application;
@@ -47,7 +48,7 @@ public class Main extends Application {
     }
     
     Login login = new Login();
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws MalformedURLException {
     	login.start(primaryStage);
     }
 

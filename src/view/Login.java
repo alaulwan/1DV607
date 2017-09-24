@@ -1,4 +1,7 @@
 package view;
+import java.io.File;
+import java.net.MalformedURLException;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -32,7 +35,7 @@ ViewList v = new ViewList();
      
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws MalformedURLException {
         primaryStage.setTitle("YachClub Login");
         
         BorderPane bp = new BorderPane();
@@ -113,7 +116,9 @@ ViewList v = new ViewList();
         bp.setCenter(gridPane);  
      Scene scene = new Scene(bp,800,800);
      // getStylesheets from .bin folder
-     scene.getStylesheets().add(getClass().getClassLoader().getResource("login.css").toExternalForm());
+     File file= new File ("src/login.css");
+     scene.getStylesheets().add(file.toURL().toExternalForm());
+     //scene.getStylesheets().add(getClass().getClassLoader().getResource("login.css").toExternalForm());
      primaryStage.setScene(scene);
      
        primaryStage.titleProperty().bind(
