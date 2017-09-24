@@ -21,7 +21,7 @@ public class YachtClubDAO {
 			try {
 				JAXBContext context = JAXBContext.newInstance(YachtClub.class);
 				Unmarshaller un = context.createUnmarshaller();
-				File file = new File("E:/yachtClub.xml");
+				File file = new File("/yachtClub.xml");
 				System.out.println(file.getPath());
 				YachtClub yachtClub = (YachtClub) un.unmarshal(file);
 				return yachtClub;
@@ -43,7 +43,7 @@ public class YachtClubDAO {
 				// Write to System.out for debugging
 				// m.marshal(dao, System.out);
 				// Write to File
-				m.marshal(yachtClub.Main.yachtClub, new File("E:/yachtClub.xml"));
+				m.marshal(yachtClub.Main.yachtClub, new File("/yachtClub.xml"));
 			} catch (JAXBException e) {
 				e.printStackTrace();
 			}
