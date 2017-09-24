@@ -3,34 +3,46 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+
 public class MemberList {
-	List <Member> memberList = new ArrayList <Member>();
+	List <Member> members = new ArrayList <Member>();
 	
 	public MemberList () {
-		memberList = new ArrayList <Member>();
+		members = new ArrayList <Member>();
 	}
 	
 	public void addMember (Member member) {
-		memberList.add(member);
+		members.add(member);
 	}
 	
 	public void removeMember (Member member) {
-		memberList.remove(member);
+		members.remove(member);
 	}
 	
 	public void editMember (Member oldMember, Member newMember) {
 		oldMember.copyOf(newMember);
 	}
 	
-	public List getMembers () {
-		return memberList;
+	public Member getMember (int ID) {
+		for (Member Member : members)
+			if (Member.getId()==ID) return Member;
+		return null;
 	}
 	
-	public void setMembers (List MemberList) {
-		memberList = MemberList;
+
+	@XmlElement(name = "member")
+	public List<Member> getMembers () {
+		return members;
+	}
+	
+	public void setMembers (List<Member> MemberList) {
+		members = MemberList;
 	}
 	
 	public int getNumberOfMembers () {
-		return memberList.size();
+		return members.size();
 	}
 }

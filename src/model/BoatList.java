@@ -3,35 +3,48 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+
 public class BoatList {
-	List <Boat> boatList = new ArrayList <Boat>();
+	
+	List <Boat> boats = new ArrayList <Boat>();
 	
 	public BoatList () {
-		boatList = new ArrayList <Boat>();
+		boats = new ArrayList <Boat>();
 	}
 	
 	public void addBoat (Boat boat) {
-		boatList.add(boat);
+		boats.add(boat);
 	}
 	
 	public void removeBoat (Boat boat) {
-		boatList.remove(boat);
+		boats.remove(boat);
 	}
 	
 	public void editBoat (Boat oldBoat, Boat newBoat) {
 		oldBoat.copyOf(newBoat);
 	}
 	
-	public List getBoats () {
-		return boatList;
+	
+	public Boat getBoat (int ID) {
+		for (Boat Boat : boats)
+			if (Boat.getId()==ID) return Boat;
+		return null;
 	}
 	
-	public void setBoats (List BoatList) {
-		boatList = BoatList;
+	@XmlElement(name = "boat")
+	public List<Boat> getBoats () {
+		return boats;
+	}
+	
+	public void setBoats (List<Boat> BoatList) {
+		boats = BoatList;
 	}
 	
 	public int getNumberOfBoats () {
-		return boatList.size();
+		return boats.size();
 	}
 	
 }
