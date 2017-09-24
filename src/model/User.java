@@ -19,11 +19,12 @@ public class User {
 		this.setId(Integer.valueOf(MemberID));
 	}
 	
-	public User(String Name, String UserName, String Password) {
+	public User(String Name, String PersonalNumber, String UserName, String Password) {
 		id=IDstatic++;
 		this.setName(Name);
 		this.setUserName(UserName);
 		this.setPassword(Password);
+		this.setPersonalNumber(PersonalNumber);
 		
 	}
 	

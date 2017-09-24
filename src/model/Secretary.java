@@ -6,8 +6,8 @@ public class Secretary extends User {
 		super();
 	}
 
-	public Secretary(String Name ,String UserName, String Password ) {
-		super(Name, UserName, Password);
+	public Secretary(String Name, String PersonalNumber ,String UserName, String Password ) {
+		super(Name,PersonalNumber, UserName, Password);
 	}
 	
 

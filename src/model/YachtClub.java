@@ -8,7 +8,7 @@ public class YachtClub {
 	private MemberList memberList ;
 	//private BoatList boatList ;
 	public YachtClub() {
-		secretary = new Secretary(null, null, null);
+		secretary = new Secretary(null, null, null, null);
 		memberList = new MemberList();
 		//boatList = new BoatList();
 	}

@@ -52,8 +52,8 @@ public class Member extends User {
       	NumberOfBoats.set(BNum);
       }*/
 	
-    public Member(String Name ,String UserName, String Password ) {
-  		super(Name, UserName, Password);
+    public Member(String Name, String PersonalNumber ,String UserName, String Password ) {
+  		super(Name,PersonalNumber, UserName, Password);
   	}
 	
 	public BoatList getBoats() {
@@ -64,6 +64,8 @@ public class Member extends User {
 		if (boats==null) return 0;
 		return boats.getNumberOfBoats();
 	}
+	
+	
 
 
 	public void setBoatList(BoatList boatList) {

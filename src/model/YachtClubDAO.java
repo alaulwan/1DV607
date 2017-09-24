@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,14 +18,40 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 public class YachtClubDAO {
 	
+	// Url to .bin folder
+	// URL url = this.getClass().getClassLoader().getResource("yachtClub.xml");
+	
+	private File file = new File("src/yachtClub.xml");
+			
+	// Method to save the member list to XML file
+			public void jaxbObjectToXML() {
+				
+				try {
+					JAXBContext context = JAXBContext.newInstance(YachtClub.class);
+					Marshaller m = context.createMarshaller();
+					// for pretty-print XML in JAXB
+					m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+					// Write to System.out for debugging
+					// m.marshal(dao, System.out);
+					
+					// Write to File
+					//File file = new File(url.toURI());
+					m.marshal(yachtClub.Main.yachtClub, file);
+					System.out.println("Saved successfully to: " + file.getPath());
+				} catch (JAXBException e) {
+					e.printStackTrace();
+				}
+			}
+	
 	// Method to import all books from XML file
-		public YachtClub jaxbXMLToObject() throws IOException {
+		public YachtClub jaxbXMLToObject()  {
 			try {
 				JAXBContext context = JAXBContext.newInstance(YachtClub.class);
 				Unmarshaller un = context.createUnmarshaller();
-				File file = new File("/yachtClub.xml");
-				System.out.println(file.getPath());
+				//File file = new File(url.toURI());
 				YachtClub yachtClub = (YachtClub) un.unmarshal(file);
+				System.out.println("Loaded successfully from: " + file.getPath());
 				return yachtClub;
 			} catch (JAXBException e) {
 				e.printStackTrace();
@@ -31,22 +59,6 @@ public class YachtClubDAO {
 			return null;
 		}
 	
-	// Method to save the member list to XML file
-		public void jaxbObjectToXML() {
-
-			try {
-				JAXBContext context = JAXBContext.newInstance(YachtClub.class);
-				Marshaller m = context.createMarshaller();
-				// for pretty-print XML in JAXB
-				m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-				// Write to System.out for debugging
-				// m.marshal(dao, System.out);
-				// Write to File
-				m.marshal(yachtClub.Main.yachtClub, new File("/yachtClub.xml"));
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
-		}
+	
 
 }
