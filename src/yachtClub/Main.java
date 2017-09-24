@@ -41,6 +41,7 @@ public class Main extends Application {
     	YachtClubDAO ycDAO= new YachtClubDAO();
     	ycDAO.jaxbObjectToXML();
     	yachtClub=ycDAO.jaxbXMLToObject();
+    	System.out.print("test");
         launch(args);
     }
 
