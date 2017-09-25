@@ -4,21 +4,29 @@ import java.util.stream.IntStream;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -41,8 +49,17 @@ public class ViewList {
        
       
        
-	 public  BorderPane BorderPane() {
+	 @SuppressWarnings("unchecked")
+	public  BorderPane BorderPane() {
     table.setId("table-view");
+    table.setRowFactory(tableView -> { final TableRow<Member> row = new TableRow<>(); row.hoverProperty().addListener((observable) -> { final Member
+    	person = row.getItem(); if (row.isHover() && person != null) 
+    	{ final Tooltip tooltip = new Tooltip();
+    	tooltip.setText(
+    		    "\nHere will be member info\n"  
+    		);
+    		row.setTooltip(tooltip);}
+    	 }); return row; });
     buildTop();
     buildLeft();
     buildtabelview();
@@ -51,9 +68,9 @@ public class ViewList {
     initialize();
 	return bp;
 }
-	 
-	 private void initialize() {
-	       	System.out.print("alaa");
+
+	private void initialize() {
+	       	   System.out.print("alaa");
 	    	   name.setCellValueFactory( new PropertyValueFactory<Member, String>("name"));
 	    	   pn.setCellValueFactory(new PropertyValueFactory<Member, String>("personalNumber"));
 	    	   boats.setCellValueFactory(new PropertyValueFactory<Member, Integer>("NumberOfBoats"));
