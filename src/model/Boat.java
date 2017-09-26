@@ -54,17 +54,22 @@ public class Boat {
 	}
 	
 	
+	public int getId() {
+		return id;
+	}
 	
+	public void setId(int ID) {
+		id=ID;
+	}
 	
 	
 	public void copyOf (Boat Boat) {
 		setType (Boat.getType());
 		setLength (Boat.getLength());
+		setOwnerId(Boat.getOwnerId());
 	}
 
-	public int getId() {
-		return id;
-	}
+	
 
 	
 }

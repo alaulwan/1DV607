@@ -1,7 +1,6 @@
 package model;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 //import javafx.beans.property.SimpleStringProperty;
 
@@ -80,5 +79,6 @@ public class Member extends User {
 		setPersonalNumber(Member.getPersonalNumber());
 		setUserName(Member.getUserName());
 		setPassword (Member.getPassword());
+		setBoatList (Member.getBoats());
 	}
 }

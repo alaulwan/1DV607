@@ -1,47 +1,35 @@
 package view;
 
-import java.util.stream.IntStream;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import model.Member;
+import model.YachtClubDAO;
 import yachtClub.Main;
 
 public class ViewList {
 	   BorderPane bp = new BorderPane();
 	   AddMemberPopup ading = new AddMemberPopup();
 	   ObservableList<Member> data = FXCollections.observableArrayList(Main.yachtClub.getMemberList().getMembers());
-	   private TableView table = new TableView(data);
+	   private  TableView<Member> table = new TableView<Member>(data);
 	   TableColumn<Member, String> name = new TableColumn<Member, String>("Member Name");
        TableColumn<Member, String> pn = new TableColumn<Member, String>("Personal Number");
        TableColumn<Member, Integer> id = new TableColumn<Member, Integer>("Member id");
@@ -49,8 +37,7 @@ public class ViewList {
        
       
        
-	 @SuppressWarnings("unchecked")
-	public  BorderPane BorderPane() {
+	 public  BorderPane BorderPane() {
     table.setId("table-view");
     table.setRowFactory(tableView -> { final TableRow<Member> row = new TableRow<>(); row.hoverProperty().addListener((observable) -> { final Member
     	person = row.getItem(); if (row.isHover() && person != null) 
@@ -70,7 +57,6 @@ public class ViewList {
 }
 
 	private void initialize() {
-	       	   System.out.print("alaa");
 	    	   name.setCellValueFactory( new PropertyValueFactory<Member, String>("name"));
 	    	   pn.setCellValueFactory(new PropertyValueFactory<Member, String>("personalNumber"));
 	    	   boats.setCellValueFactory(new PropertyValueFactory<Member, Integer>("NumberOfBoats"));
@@ -106,21 +92,31 @@ public class ViewList {
 	        Button LogOut = new Button();
 	        LogOut.setText("LogOut");
 	        LogOut.setMaxWidth(Double.MAX_VALUE);
+	        Button Save = new Button("Save");
+	        Save.setMaxWidth(Double.MAX_VALUE);
 	        AddMember.setId("btnLogin");
 	        LogOut.setId("btnLogin");
+	        Save.setId("btnLogin");
 	        Verbose.setId("btnLogin");
 	        Verbose.setOnAction(new EventHandler<ActionEvent>()
 	        {
 	            public void handle(ActionEvent e)
 	            {
 	                id.setVisible(true);
+	                
 	            }
 	        });   
 	        AddMember.setOnAction(new EventHandler<ActionEvent>()
 	        {
 	            public void handle(ActionEvent e)
 	            {
-	                ading.createPopup();
+	                ading.createPopup(null);
+	                if (data.size()!=Main.yachtClub.getMemberList().getMembers().size()) {
+	                	data.add(Main.yachtClub.getMemberList().getMembers().get(data.size()));
+	                	//data.removeAll(data);
+	                	//data.addAll(Main.yachtClub.getMemberList().getMembers());
+	                }
+	                table.refresh();
 	            }
 	        });   
 	        Button compact = new Button("Compact  ");
@@ -131,8 +127,18 @@ public class ViewList {
 	            {
 	                id.setVisible(false);
 	            }
-	        });   
-	        buttonBox.getChildren().addAll(AddMember, Verbose,compact,LogOut);
+	        });  
+	        
+	        Save.setOnAction(new EventHandler<ActionEvent>()
+	        {
+	            public void handle(ActionEvent e)
+	            {
+	                YachtClubDAO ycDAO = new YachtClubDAO();
+	                ycDAO.jaxbObjectToXML();
+	            }
+	        });
+	        
+	        buttonBox.getChildren().addAll(AddMember, Verbose,compact,Save,LogOut);
        
 	        //Add VBox to leftLayout.
 	        leftLayout.setCenter(buttonBox);
@@ -157,7 +163,8 @@ public class ViewList {
 	       
 	        bp.setTop(topLayout);
 	   }
-	   private void buildtabelview()
+	   @SuppressWarnings("unchecked")
+	private void buildtabelview()
 	   {
 		   BorderPane center = new BorderPane();
 	        name.setMinWidth(80);
@@ -184,8 +191,31 @@ public class ViewList {
 		    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 		    Button remove = new Button("Remove");
 		    remove.setId("btnLogin");
+		    remove.setOnAction(new EventHandler<ActionEvent>()
+	        {
+	            public void handle(ActionEvent e)
+	            {
+	            	Member member = (Member)table.getSelectionModel().getSelectedItem();
+	            	data.remove(member);
+	            	Main.yachtClub.getMemberList().removeMember(member);
+	            	table.refresh();
+	            }
+	        });
 		    Button edit = new Button("Edit");
 		    edit.setId("btnLogin");
+		    edit.setOnAction(new EventHandler<ActionEvent>()
+	        {
+	            public void handle(ActionEvent e)
+	            {	
+	            	Member m = (Member)table.getSelectionModel().getSelectedItem();
+	            	if (m!=null) {
+	            		ading.createPopup((Member)table.getSelectionModel().getSelectedItem());
+		                table.refresh();
+	            	}
+	                
+	            }
+	        });
+		    
 		    vbox.getChildren().addAll(title,remove,edit,t);
 		   bp.setRight(vbox);
 		   
