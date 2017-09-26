@@ -63,7 +63,6 @@ public class ViewList {
     buildTop();
     buildLeft();
     buildtabelview();
-    BuildmemberDetails();
     bp.setId("bp");
     initialize();
 	return bp;
@@ -160,12 +159,13 @@ public class ViewList {
 	   private void buildtabelview()
 	   {
 		   BorderPane center = new BorderPane();
-	        name.setMinWidth(80);
-	        pn.setMinWidth(80);
-	        boats.setMinWidth(80);
-	        id.setMinWidth(80);
+	        name.setMinWidth(100);
+	        pn.setMinWidth(100);
+	        boats.setMinWidth(100);
+	        id.setMinWidth(100);
 	        table.getColumns().addAll(name,id, pn, boats);
-	        table.setMaxWidth(400);
+	        table.setMaxWidth(500);
+	        table.setEditable(true);
 	        id.setVisible(false);
 	        final VBox vbox = new VBox();
 	        vbox.setSpacing(5);
@@ -174,20 +174,5 @@ public class ViewList {
 	        center.setCenter(vbox);
 	        bp.setCenter(vbox);
 	   }
-	   public void BuildmemberDetails(){
-		   VBox vbox = new VBox();
-		    vbox.setPadding(new Insets(10));
-		    vbox.setSpacing(8);
-
-		    Text title = new Text("Member");
-		    Text t = new Text("here when we double click the cell");
-		    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		    Button remove = new Button("Remove");
-		    remove.setId("btnLogin");
-		    Button edit = new Button("Edit");
-		    edit.setId("btnLogin");
-		    vbox.getChildren().addAll(title,remove,edit,t);
-		   bp.setRight(vbox);
-		   
-	   }
+	   
 }

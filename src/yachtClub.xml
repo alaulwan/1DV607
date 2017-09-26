@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<yachtClub>
+    <memberList>
+        <member>
+            <id>1</id>
+            <name>Alaa</name>
+            <password>alaaPASS</password>
+            <personalNumber>555555-5555</personalNumber>
+            <userName>alaaUSER</userName>
+            <boats>
+                <boat>
+                    <length>5.0</length>
+                    <ownerId>1</ownerId>
+                    <type>Sailboat</type>
+                </boat>
+                <boat>
+                    <length>4.0</length>
+                    <ownerId>1</ownerId>
+                    <type>kayak</type>
+                </boat>
+            </boats>
+        </member>
+        <member>
+            <id>2</id>
+            <name>Amr</name>
+            <password>amrPASS</password>
+            <personalNumber>666666-6666</personalNumber>
+            <userName>amrUSER</userName>
+            <boats>
+                <boat>
+                    <length>3.0</length>
+                    <ownerId>2</ownerId>
+                    <type>Motorsailer</type>
+                </boat>
+            </boats>
+        </member>
+    </memberList>
+    <secretary>
+        <id>3</id>
+        <name>iugh</name>
+        <password>gg</password>
+        <personalNumber>111111-1111</personalNumber>
+        <userName>ij</userName>
+    </secretary>
+</yachtClub>
