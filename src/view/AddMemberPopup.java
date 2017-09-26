@@ -6,12 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -25,7 +29,7 @@ public class AddMemberPopup {
 	
 	@SuppressWarnings("unchecked")
 	public void createPopup(Member member) {
-		Pane root=new Pane();
+		BorderPane root=new BorderPane();
 		Stage stage=new Stage();
 		stage.setTitle("Add Member");
 		Button done = new Button("Done!");
@@ -39,11 +43,11 @@ public class AddMemberPopup {
 		editBoat.setId("btnLogin");
 		
 		TextField name = new TextField();
-		Text nam = new Text("Name");
+		Text nam = new Text(" Name");
 		TextField PersonalNumber = new TextField();
-		Text pn = new Text("PersonalNumber");
-		Text bl = new Text("Boat Length");
-		Text bt = new Text("Boat Type");
+		Text pn = new Text(" PersonalNumber");
+		Text bl = new Text(" Boat Length");
+		Text bt = new Text(" Boat Type");
 		TextField BoatLength = new TextField();
 		 ChoiceBox<Type> cb = new ChoiceBox<Type>();
 		 cb.getItems().addAll(Type.kayak, Type.Motorsailer, Type.Sailboat, Type.Other);
@@ -69,12 +73,19 @@ public class AddMemberPopup {
 	        vbox.setSpacing(5);
 	        vbox.setPadding(new Insets(10, 0, 0, 10));
 	        vbox.getChildren().add(table);
-	        
-		
 		VBox container = new VBox(5);
 		container.getChildren().addAll(nam,name,pn,PersonalNumber,bl,BoatLength,bt,cb,addBoat,removeBoat,editBoat,done,table);
-		root.getChildren().add(container);
-		Scene scene = new Scene(root,225,500);
+		HBox buttom = new HBox(5);
+		buttom.getChildren().addAll(addBoat,editBoat,removeBoat,done);
+		root.setBottom(buttom);
+		VBox center = new VBox();
+		center.getChildren().add(table);
+		root.setCenter(center);
+		VBox right = new VBox(5);
+		right.getChildren().addAll(nam,name,pn,PersonalNumber,bl,BoatLength,bt,cb);
+		root.setRight(right);
+		table.setId("table-view");
+		Scene scene = new Scene(root,500,500);
 		stage.setScene(scene);
 		root.setId("bp");
 		 scene.getStylesheets().add(getClass().getClassLoader().
@@ -109,10 +120,20 @@ public class AddMemberPopup {
 		 addBoat.setOnAction(new EventHandler<ActionEvent>()
 	        {
 	            public void handle(ActionEvent e)
-	            {
-	            	Boat boat = new Boat((Type)cb.getValue(),Double.valueOf(BoatLength.getText()),0);
-	            	boatsData.add(boat);
-	            	//Main.yachtClub.getMemberList().getMember(member.getId()).getBoats().getBoats().add(boat);
+	       
+	            {  
+	            	try {
+	            	     Integer.parseInt(PersonalNumber.getText());
+	            	    	 Boat boat = new Boat((Type)cb.getValue(),Double.valueOf(BoatLength.getText()),0);
+		 	            	 boatsData.add(boat);
+	            	         name.clear();PersonalNumber.clear();BoatLength.clear();
+	            	     }
+	            	
+	            	catch (NumberFormatException e1) {
+	            	     //Not an integer
+	            		Alert alert = new Alert(AlertType.ERROR, "Stop outsmarting dude! ");
+	            		alert.showAndWait();
+	            	}
 	            	
 	            }
 	        });
