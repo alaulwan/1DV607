@@ -3,7 +3,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,7 +16,6 @@ import javafx.scene.effect.Reflection;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -33,7 +31,7 @@ ViewList v = new ViewList();
         launch(args);
     }*/
      
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	@Override
     public void start(Stage primaryStage) throws MalformedURLException {
         primaryStage.setTitle("YachClub Login");
