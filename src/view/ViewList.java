@@ -1,26 +1,42 @@
 package view;
 
 
+import java.io.File;
+
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.ImageViewBuilder;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import model.Member;
 import model.YachtClubDAO;
 import yachtClub.Main;
@@ -34,19 +50,14 @@ public class ViewList {
        TableColumn<Member, String> pn = new TableColumn<Member, String>("Personal Number");
        TableColumn<Member, Integer> id = new TableColumn<Member, Integer>("Member id");
        TableColumn<Member, Integer> boats = new TableColumn<Member, Integer>("Number Of Boats");
-       
+       TextField input = new TextField();
       
        
 	 public  BorderPane BorderPane() {
     table.setId("table-view");
-    table.setRowFactory(tableView -> { final TableRow<Member> row = new TableRow<>(); row.hoverProperty().addListener((observable) -> { final Member
-    	person = row.getItem(); if (row.isHover() && person != null) 
-    	{ final Tooltip tooltip = new Tooltip();
-    	tooltip.setText(
-    		    "\nHere will be member info\n"  
-    		);
-    		row.setTooltip(tooltip);}
-    	 }); return row; });
+    table.setRowFactory(tableView -> { final TableRow<Member> row = new TableRow<>(); 
+   getmenu(row);
+    return row; });
     buildTop();
     buildLeft();
     buildtabelview();
@@ -54,7 +65,6 @@ public class ViewList {
     initialize();
 	return bp;
 }
-
 	private void initialize() {
 	    	   name.setCellValueFactory( new PropertyValueFactory<Member, String>("name"));
 	    	   pn.setCellValueFactory(new PropertyValueFactory<Member, String>("personalNumber"));
@@ -150,9 +160,10 @@ public class ViewList {
 	   private void buildTop() {
 	        BorderPane topLayout = new BorderPane();
 	        Label title= new Label("Yacht Club");
-	        TextField input = new TextField();
+	        TextField input = new TextField();	        
 	        input.setPromptText("Search");
-	        Label search = new Label("Search");
+	        Button search = new Button("Search");
+	        search.setId("btnLogin");
 	        title.setId("text");
 	        topLayout.setCenter(title);
 	        VBox SearchBox = new VBox();
@@ -162,7 +173,8 @@ public class ViewList {
 	       
 	        bp.setTop(topLayout);
 	   }
-	   @SuppressWarnings("unchecked")
+	  
+	@SuppressWarnings("unchecked")
 	private void buildtabelview()
 	   {
 		   BorderPane center = new BorderPane();
@@ -181,43 +193,52 @@ public class ViewList {
 	        center.setCenter(vbox);
 	        bp.setCenter(vbox);
 	   }
-	   public void BuildmemberDetails(){
-		   VBox vbox = new VBox();
-		    vbox.setPadding(new Insets(10));
-		    vbox.setSpacing(8);
-
-		    Text title = new Text("Member");
-		    Text t = new Text("here when we double click the cell");
-		    title.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-		    Button remove = new Button("Remove");
-		    remove.setId("btnLogin");
-		    remove.setOnAction(new EventHandler<ActionEvent>()
-	        {
-	            public void handle(ActionEvent e)
-	            {
-	            	Member member = (Member)table.getSelectionModel().getSelectedItem();
-	            	data.remove(member);
-	            	Main.yachtClub.getMemberList().removeMember(member);
-	            	table.refresh();
-	            }
-	        });
-		    Button edit = new Button("Edit");
-		    edit.setId("btnLogin");
-		    edit.setOnAction(new EventHandler<ActionEvent>()
-	        {
-	            public void handle(ActionEvent e)
-	            {	
-	            	Member m = (Member)table.getSelectionModel().getSelectedItem();
-	            	if (m!=null) {
-	            		ading.createPopup((Member)table.getSelectionModel().getSelectedItem());
-		                table.refresh();
-	            	}
-	                
-	            }
-	        });
-		    
-		    vbox.getChildren().addAll(title,remove,edit,t);
-		   bp.setRight(vbox);
-		   
-	   }
+	  
+	   private void getmenu(TableRow<Member> row) {
+			// TODO Auto-generated method stub
+		   final ContextMenu contextMenu = new ContextMenu();  
+           final MenuItem removeMenuItem = new MenuItem("Remove Member"); 
+           final MenuItem EditMenuItem = new MenuItem("Edit Member");
+           final MenuItem ViewMember = new MenuItem("View Member");
+          
+           removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {  
+               @Override  
+               public void handle(ActionEvent event) {  
+                   table.getItems().remove(row.getItem());  
+               }  
+           });
+           ViewMember.setOnAction(new EventHandler<ActionEvent>() {  
+               @Override  
+               public void handle(ActionEvent event) {  
+            	   final Stage dialog = new Stage();
+                   dialog.initModality(Modality.APPLICATION_MODAL);
+                   dialog.setTitle("Member name");
+                   VBox dialogVbox = new VBox(20);
+                   dialogVbox.setId("root");
+                   dialogVbox.getChildren().add(new Text("here we will show member ifno"));
+                   Scene dialogScene = new Scene(dialogVbox, 300, 200);
+                   dialog.setScene(dialogScene);
+                   dialog.show();  
+               }  
+           });
+           setImageIcon(ViewMember,"src/images/view.png");
+           setImageIcon(removeMenuItem,"src/images/delete.png");
+           setImageIcon(EditMenuItem,"src/images/edit.jpg");
+           contextMenu.getItems().addAll(ViewMember,removeMenuItem,EditMenuItem);
+           row.contextMenuProperty().bind(  
+                   Bindings.when(row.emptyProperty())  
+                   .then((ContextMenu)null)  
+                   .otherwise(contextMenu)  
+           );  
+		}
+	private void setImageIcon(MenuItem removeMenuItem,String path) {
+		// TODO Auto-generated method stub
+		 File file = new File(path);
+         Image image = new Image(file.toURI().toString());
+         ImageView imageView=new ImageView();
+         imageView.setImage(image);
+         imageView.setFitWidth(10);
+         imageView.setFitHeight(10);
+         removeMenuItem.setGraphic(imageView);
+	}
 }

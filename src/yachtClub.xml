@@ -9,11 +9,13 @@
             <userName>alaaUSER</userName>
             <boats>
                 <boat>
+                    <id>4</id>
                     <length>5.0</length>
                     <ownerId>1</ownerId>
                     <type>Sailboat</type>
                 </boat>
                 <boat>
+                    <id>5</id>
                     <length>4.0</length>
                     <ownerId>1</ownerId>
                     <type>kayak</type>
@@ -28,11 +30,20 @@
             <userName>amrUSER</userName>
             <boats>
                 <boat>
+                    <id>6</id>
                     <length>3.0</length>
                     <ownerId>2</ownerId>
                     <type>Motorsailer</type>
                 </boat>
             </boats>
+        </member>
+        <member>
+            <id>8</id>
+            <name>as</name>
+            <password></password>
+            <personalNumber>232</personalNumber>
+            <userName></userName>
+            <boats/>
         </member>
     </memberList>
     <secretary>
