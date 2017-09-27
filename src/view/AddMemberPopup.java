@@ -123,10 +123,10 @@ public class AddMemberPopup {
 	       
 	            {  
 	            	try {
-	            	     Integer.parseInt(PersonalNumber.getText());
+	            	     //Integer.parseInt(PersonalNumber.getText());
 	            	    	 Boat boat = new Boat((Type)cb.getValue(),Double.valueOf(BoatLength.getText()),0);
 		 	            	 boatsData.add(boat);
-	            	         name.clear();PersonalNumber.clear();BoatLength.clear();
+	            	         //name.clear();PersonalNumber.clear();BoatLength.clear();
 	            	     }
 	            	
 	            	catch (NumberFormatException e1) {
@@ -158,6 +158,10 @@ public class AddMemberPopup {
 	            	
 	            }
 	        });
+		 table.setOnMouseClicked(event1 -> {
+			 BoatLength.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getLength()));
+			 cb.setValue(table.getSelectionModel().getSelectedItem().getType());
+		 });
 		stage.showAndWait();
 	    
 	}

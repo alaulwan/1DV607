@@ -204,13 +204,32 @@ public class ViewList {
            removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {  
                @Override  
                public void handle(ActionEvent event) {  
-                   table.getItems().remove(row.getItem());  
+            	   Member member = (Member)table.getSelectionModel().getSelectedItem();
+	            	data.remove(member);
+	            	Main.yachtClub.getMemberList().removeMember(member);
+	            	table.refresh();
+                   //table.getItems().remove(row.getItem());  
+               }  
+           });
+           EditMenuItem.setOnAction(new EventHandler<ActionEvent>() {  
+               @Override  
+               public void handle(ActionEvent event) { 
+            	   Member m = (Member)table.getSelectionModel().getSelectedItem();
+	            	if (m!=null) {
+	            		ading.createPopup((Member)table.getSelectionModel().getSelectedItem());
+		                table.refresh();
+	            	}
                }  
            });
            ViewMember.setOnAction(new EventHandler<ActionEvent>() {  
                @Override  
-               public void handle(ActionEvent event) {  
-            	   final Stage dialog = new Stage();
+               public void handle(ActionEvent event) { 
+            	   Member m = (Member)table.getSelectionModel().getSelectedItem();
+	            	if (m!=null) {
+	            		ading.createPopup((Member)table.getSelectionModel().getSelectedItem());
+		                table.refresh();
+	            	}
+            	   /*final Stage dialog = new Stage();
                    dialog.initModality(Modality.APPLICATION_MODAL);
                    dialog.setTitle("Member name");
                    VBox dialogVbox = new VBox(20);
@@ -218,7 +237,7 @@ public class ViewList {
                    dialogVbox.getChildren().add(new Text("here we will show member ifno"));
                    Scene dialogScene = new Scene(dialogVbox, 300, 200);
                    dialog.setScene(dialogScene);
-                   dialog.show();  
+                   dialog.show(); */ 
                }  
            });
            setImageIcon(ViewMember,"src/images/view.png");
