@@ -15,7 +15,7 @@ public class YachtClubDAO {
 	private File file = new File("src/yachtClub.xml");
 			
 	// Method to save the member list to XML file
-			public void jaxbObjectToXML() {
+			public void jaxbObjectToXML(YachtClub yachtClub) {
 				
 				try {
 					JAXBContext context = JAXBContext.newInstance(YachtClub.class);
@@ -28,7 +28,7 @@ public class YachtClubDAO {
 					
 					// Write to File
 					//File file = new File(url.toURI());
-					m.marshal(yachtClub.Main.yachtClub, file);
+					m.marshal(yachtClub, file);
 					System.out.println("Saved successfully to: " + file.getPath());
 				} catch (JAXBException e) {
 					e.printStackTrace();

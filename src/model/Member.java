@@ -1,14 +1,15 @@
 package model;
 
-import javax.xml.bind.annotation.XmlElement;
+import java.util.ArrayList;
+import java.util.List;
 
 //import javafx.beans.property.SimpleStringProperty;
 
 
 public class Member extends User {
 
-	@XmlElement(name = "boats")
-	private BoatList boats = new BoatList();
+	
+	private  List<Boat> boatList;
 	  //private final SimpleStringProperty MemberName;
       //private final SimpleStringProperty MemberID;
       //private final SimpleStringProperty NumberOfBoats;
@@ -16,6 +17,7 @@ public class Member extends User {
 	
     public Member() {
     	super();
+    	boatList = new ArrayList<Boat>();
   	  
     }
 	
@@ -24,6 +26,7 @@ public class Member extends User {
           //this.MemberID = new SimpleStringProperty(MemberID);
           //this.NumberOfBoats = new SimpleStringProperty(NumberOfBoats);
     	  super(MemberName, MemberID);
+    	  boatList = new ArrayList<Boat>();
     	  
       }
 
@@ -53,25 +56,44 @@ public class Member extends User {
 	
     public Member(String Name, String PersonalNumber ,String UserName, String Password ) {
   		super(Name,PersonalNumber, UserName, Password);
+  		boatList = new ArrayList<Boat>();
   	}
 	
-	public BoatList getBoats() {
-		return boats;
+	public List<Boat> getBoatList() {
+		return boatList;
 	}
 
 	public int getNumberOfBoats() {
-		if (boats==null) return 0;
-		return boats.getNumberOfBoats();
+		if (boatList==null) return 0;
+		return boatList.size();
+	}
+	
+	public void addBoat (Boat Boat) {
+		boatList.add(Boat);
+	}
+	
+	public void removeBoat (Boat Boat) {
+		boatList.remove(Boat);
+	}
+	
+	public void editBoat(Boat oldBoat, Boat newBoat) {
+		oldBoat.copyOf(newBoat);
+	}
+	
+	public Boat getBoat (int ID) {
+		for (Boat Boat : boatList)
+			if (Boat.getId()==ID) return Boat;
+		return null;
 	}
 	
 	
 
 
-	public void setBoatList(BoatList boatList) {
-		this.boats = boatList;
+	public void setBoatList(List<Boat> BoatList) {
+		this.boatList = BoatList;
 	}
 
-
+	
 
 
 	public void copyOf (Member Member) {
@@ -79,6 +101,6 @@ public class Member extends User {
 		setPersonalNumber(Member.getPersonalNumber());
 		setUserName(Member.getUserName());
 		setPassword (Member.getPassword());
-		setBoatList (Member.getBoats());
+		setBoatList (Member.getBoatList());
 	}
 }

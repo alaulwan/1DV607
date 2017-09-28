@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -92,7 +91,7 @@ public class AddMemberPopup {
 				 getResource("login.css").toExternalForm());
 	     
 		 if (member!=null) {
-			 boatsData.addAll(FXCollections.observableArrayList(member.getBoats().getBoats()));
+			 boatsData.addAll(FXCollections.observableArrayList(member.getBoatList()));
 			 name.setText(member.getName());
 			 PersonalNumber.setText(member.getPersonalNumber());
 			 stage.setTitle("View/Edit Member");
@@ -103,14 +102,14 @@ public class AddMemberPopup {
 	            {
 	            	Member newMember = new Member (name.getText(), PersonalNumber.getText(),null, null);
 	            	
-	            	newMember.getBoats().setBoats(boatsData);
+	            	newMember.setBoatList(boatsData);
 	            	if (member!=null) {
 	            		member.copyOf(newMember);
-	            		for (Boat b : member.getBoats().getBoats())
+	            		for (Boat b : member.getBoatList())
 		            		b.setOwnerId(member.getId());
 	            	}
 	            	else {
-	            		for (Boat b : newMember.getBoats().getBoats())
+	            		for (Boat b : newMember.getBoatList())
 		            		b.setOwnerId(newMember.getId());
 	            		Main.yachtClub.addMember(newMember);
 	            	}

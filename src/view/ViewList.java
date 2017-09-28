@@ -6,13 +6,10 @@ import java.io.File;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -21,22 +18,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.ImageViewBuilder;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import model.Member;
 import model.YachtClubDAO;
 import yachtClub.Main;
@@ -44,7 +33,7 @@ import yachtClub.Main;
 public class ViewList {
 	   BorderPane bp = new BorderPane();
 	   AddMemberPopup ading = new AddMemberPopup();
-	   ObservableList<Member> data = FXCollections.observableArrayList(Main.yachtClub.getMemberList().getMembers());
+	   ObservableList<Member> data = FXCollections.observableArrayList(Main.yachtClub.getMemberList());
 	   private  TableView<Member> table = new TableView<Member>(data);
 	   TableColumn<Member, String> name = new TableColumn<Member, String>("Member Name");
        TableColumn<Member, String> pn = new TableColumn<Member, String>("Personal Number");
@@ -120,8 +109,8 @@ public class ViewList {
 	            public void handle(ActionEvent e)
 	            {
 	                ading.createPopup(null);
-	                if (data.size()!=Main.yachtClub.getMemberList().getMembers().size()) {
-	                	data.add(Main.yachtClub.getMemberList().getMembers().get(data.size()));
+	                if (data.size()!=Main.yachtClub.getMemberList().size()) {
+	                	data.add(Main.yachtClub.getMemberList().get(data.size()));
 	                	//data.removeAll(data);
 	                	//data.addAll(Main.yachtClub.getMemberList().getMembers());
 	                }
@@ -143,7 +132,7 @@ public class ViewList {
 	            public void handle(ActionEvent e)
 	            {
 	                YachtClubDAO ycDAO = new YachtClubDAO();
-	                ycDAO.jaxbObjectToXML();
+	                ycDAO.jaxbObjectToXML(yachtClub.Main.yachtClub);
 	            }
 	        });
 	        
@@ -195,7 +184,6 @@ public class ViewList {
 	   }
 	  
 	   private void getmenu(TableRow<Member> row) {
-			// TODO Auto-generated method stub
 		   final ContextMenu contextMenu = new ContextMenu();  
            final MenuItem removeMenuItem = new MenuItem("Remove Member"); 
            final MenuItem EditMenuItem = new MenuItem("Edit Member");
@@ -206,7 +194,7 @@ public class ViewList {
                public void handle(ActionEvent event) {  
             	   Member member = (Member)table.getSelectionModel().getSelectedItem();
 	            	data.remove(member);
-	            	Main.yachtClub.getMemberList().removeMember(member);
+	            	Main.yachtClub.removeMember(member);
 	            	table.refresh();
                    //table.getItems().remove(row.getItem());  
                }  
@@ -251,7 +239,6 @@ public class ViewList {
            );  
 		}
 	private void setImageIcon(MenuItem removeMenuItem,String path) {
-		// TODO Auto-generated method stub
 		 File file = new File(path);
          Image image = new Image(file.toURI().toString());
          ImageView imageView=new ImageView();
