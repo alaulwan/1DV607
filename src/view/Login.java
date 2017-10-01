@@ -105,6 +105,7 @@ ViewList v = new ViewList();
         	 if (Main.yachtClub.getSecretary().getUserName().equals(txtUserName.getText())) {
     			 if (Main.yachtClub.getSecretary().getPassword().equals(pf.getText())) {
     				 Main.yachtClub.logedInUser = Main.yachtClub.getSecretary();
+    				 primaryStage.setTitle("YachClub (Secretary)");
     				 primaryStage.getScene().setRoot(v.BorderPane());
     			 }
     		 }
@@ -112,6 +113,7 @@ ViewList v = new ViewList();
         		 if (m.getUserName().equals(txtUserName.getText())) {
         			 if (m.getPassword().equals(pf.getText())) {
         				 Main.yachtClub.logedInUser = m;
+        				 primaryStage.setTitle("YachClub (Member: " +m.getName() +")");
         				 primaryStage.getScene().setRoot(v.BorderPane());
         			 }
         		 }
@@ -130,7 +132,8 @@ ViewList v = new ViewList();
         guest.setOnAction(new EventHandler() {
          @Override
 		public void handle(Event arg0) {
-			// TODO Auto-generated method stub
+        	 Main.yachtClub.logedInUser =null;
+        	 primaryStage.setTitle("YachClub (Guest)");
         	 primaryStage.getScene().setRoot(v.BorderPane());
 		}
          });
@@ -144,10 +147,10 @@ ViewList v = new ViewList();
      //scene.getStylesheets().add(getClass().getClassLoader().getResource("login.css").toExternalForm());
      primaryStage.setScene(scene);
      
-       primaryStage.titleProperty().bind(
+       /*primaryStage.titleProperty().bind(
                  scene.widthProperty().asString().
                  concat(" : ").
-                 concat(scene.heightProperty().asString()));
+                 concat(scene.heightProperty().asString()));*/
      primaryStage.show();
     }
 }

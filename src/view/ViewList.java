@@ -2,6 +2,7 @@ package view;
 
 
 import java.io.File;
+import java.net.MalformedURLException;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
@@ -30,6 +31,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import model.Member;
 import model.MemberFilter;
 import model.YachtClubDAO;
@@ -140,6 +142,22 @@ public class ViewList {
 	            {
 	                YachtClubDAO ycDAO = new YachtClubDAO();
 	                ycDAO.jaxbObjectToXML(yachtClub.Main.yachtClub);
+	            }
+	        });
+	        
+	        LogOut.setOnAction(new EventHandler<ActionEvent>()
+	        {
+	            public void handle(ActionEvent e)
+	            {
+	            	Stage stage = (Stage) LogOut.getScene().getWindow();
+	                Login login = new Login();
+	                try {
+						login.start(stage);
+						Main.yachtClub.logedInUser=null;
+					} catch (MalformedURLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 	            }
 	        });
 	        

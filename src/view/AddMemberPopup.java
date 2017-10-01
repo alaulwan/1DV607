@@ -43,15 +43,15 @@ public class AddMemberPopup {
 		editBoat.setDisable(true);
 		
 		TextField name = new TextField();
-		Text nam = new Text(" Name");
+		Text nam = new Text(" Name:");
 		TextField PersonalNumber = new TextField();
-		Text pn = new Text(" PersonalNumber");
+		Text pn = new Text(" PersonalNumber:\nYYMMDD-*");
 		TextField userName = new TextField();
-		Text UserName = new Text(" User Name");
+		Text UserName = new Text(" User Name:");
 		PasswordField password = new PasswordField();
-		Text Password = new Text(" Password");
-		Text bl = new Text(" Boat Length");
-		Text bt = new Text(" Boat Type");
+		Text Password = new Text(" Password:");
+		Text bl = new Text(" Boat Length:");
+		Text bt = new Text(" Boat Type:");
 		TextField BoatLength = new TextField();
 		 ChoiceBox<Type> cb = new ChoiceBox<Type>();
 		 cb.getItems().addAll(Type.kayak, Type.Motorsailer, Type.Sailboat, Type.Other);
@@ -85,9 +85,9 @@ public class AddMemberPopup {
 		VBox center = new VBox();
 		center.getChildren().add(table);
 		root.setCenter(center);
-		VBox right = new VBox(5);
-		right.getChildren().addAll(nam,name,pn,PersonalNumber,UserName,userName, Password, password,bl,BoatLength,bt,cb,addBoat,editBoat, removeBoat,done);
-		root.setRight(right);
+		VBox left = new VBox(5);
+		left.getChildren().addAll(nam,name,pn,PersonalNumber,UserName,userName, Password, password,bl,BoatLength,bt,cb,addBoat,editBoat, removeBoat,done);
+		root.setLeft(left);
 		table.setId("table-view");
 		Scene scene = new Scene(root,500,500);
 		stage.setScene(scene);
@@ -105,11 +105,12 @@ public class AddMemberPopup {
 			 stage.setTitle("View/Edit Member");
 		 }
 		 
-		 if (Main.yachtClub.logedInUser != member && !(Main.yachtClub.logedInUser instanceof model.Secretary) ) {
-			 addBoat.setVisible(false);
+		 if (Main.yachtClub.logedInUser ==null || (Main.yachtClub.logedInUser != member && !(Main.yachtClub.logedInUser instanceof model.Secretary)) ) {
+			 root.setDisable(true);
+			 /*addBoat.setVisible(false);
 			 removeBoat.setVisible(false);
 			 editBoat.setVisible(false);
-			 done.setVisible(false);
+			 done.setVisible(false);*/
 			 
 		 }
 		 done.setOnAction(new EventHandler<ActionEvent>()

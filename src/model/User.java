@@ -9,7 +9,7 @@ public class User {
 	private String personalNumber = new String();
 	private String userName = new String();
 	private String password = new String();
-	private LocalDate bornDate;
+	private LocalDate birthDate;
 	
 	public User() {
 		id=IDstatic++;
@@ -63,8 +63,8 @@ public class User {
 		this.password = password;
 	}
 
-	public LocalDate getBornDate() {
-		return bornDate;
+	public LocalDate getBirthDate() {
+		return birthDate;
 	}
 
 	public void setBornDate(String PersonalNumber) {
@@ -74,7 +74,7 @@ public class User {
 		int Year = Integer.valueOf(year);
 		int Month = Integer.valueOf(month);
 		int Day = Integer.valueOf(day);
-		bornDate = LocalDate.of(Year, Month, Day);
+		birthDate = LocalDate.of(Year, Month, Day);
 	}
 	
 	
