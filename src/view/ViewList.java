@@ -172,7 +172,7 @@ public class ViewList {
 	        ChoiceBox<Integer> MonthSearch = new ChoiceBox<Integer>();
 	        MonthSearch.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
 	        MonthSearch.setValue(1);
-	        Button search = new Button("update");
+	        Button search = new Button("Search");
 	        search.setId("btnLogin");
 	        search.setOnAction(new EventHandler<ActionEvent>()
 	        {
