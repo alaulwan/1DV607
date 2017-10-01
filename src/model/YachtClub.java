@@ -10,11 +10,13 @@ public class YachtClub {
 	private List<Member> memberList;
 	//private BoatList boatList ;
 	public YachtClub() {
-		secretary = new Secretary(null, null, null, null);
+		logedInUser=null;
+		secretary = new Secretary();
 		memberList = new ArrayList<Member> ();
 		//boatList = new BoatList();
 	}
 	
+	public User logedInUser;
 	public List<Member>  getMemberList() {
 		return memberList;
 	}

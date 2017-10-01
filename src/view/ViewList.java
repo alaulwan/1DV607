@@ -4,6 +4,8 @@ package view;
 import java.io.File;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +13,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -27,6 +31,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
 import model.Member;
+import model.MemberFilter;
 import model.YachtClubDAO;
 import yachtClub.Main;
 
@@ -49,6 +54,7 @@ public class ViewList {
     return row; });
     buildTop();
     buildLeft();
+    buildRight();
     buildtabelview();
     bp.setId("bp");
     initialize();
@@ -107,10 +113,11 @@ public class ViewList {
 	        AddMember.setOnAction(new EventHandler<ActionEvent>()
 	        {
 	            public void handle(ActionEvent e)
-	            {
+	            {	
+	            	int oldSizeMemberList = Main.yachtClub.getMemberList().size();
 	                ading.createPopup(null);
-	                if (data.size()!=Main.yachtClub.getMemberList().size()) {
-	                	data.add(Main.yachtClub.getMemberList().get(data.size()));
+	                if (oldSizeMemberList < Main.yachtClub.getMemberList().size()) {
+	                	data.add(Main.yachtClub.getMemberList().get(oldSizeMemberList));
 	                	//data.removeAll(data);
 	                	//data.addAll(Main.yachtClub.getMemberList().getMembers());
 	                }
@@ -148,19 +155,54 @@ public class ViewList {
 	   
 	   private void buildTop() {
 	        BorderPane topLayout = new BorderPane();
-	        Label title= new Label("Yacht Club");
-	        TextField input = new TextField();	        
-	        input.setPromptText("Search");
-	        Button search = new Button("Search");
-	        search.setId("btnLogin");
+	        Label title= new Label("Yacht Club");	        
 	        title.setId("text");
 	        topLayout.setCenter(title);
-	        VBox SearchBox = new VBox();
-	        SearchBox.getChildren().addAll(search,input);
-	        topLayout.setRight(SearchBox);
 	        title.setFont(Font.font("Courier New", FontWeight.BOLD, 28));
-	       
 	        bp.setTop(topLayout);
+	   }
+	   
+	   private void buildRight() {
+	        TextField input = new TextField();	        
+	        input.setPromptText("Search");
+	        CheckBox filter = new CheckBox("Enable filter");
+	        filter.setId("btnLogin");
+	        CheckBox nameSearch = new CheckBox("Name");
+	        CheckBox monthSearch = new CheckBox("Birth Data(Month)");
+	        ChoiceBox<Integer> MonthSearch = new ChoiceBox<Integer>();
+	        MonthSearch.getItems().addAll(1,2,3,4,5,6,7,8,9,10,11,12);
+	        MonthSearch.setValue(1);
+	        Button search = new Button("update");
+	        search.setId("btnLogin");
+	        search.setOnAction(new EventHandler<ActionEvent>()
+	        {
+	            public void handle(ActionEvent e)
+	            {
+	            	data.removeAll(data);
+         		    data.addAll( FXCollections.observableArrayList(Main.yachtClub.getMemberList()));
+	            	MemberFilter filter = new MemberFilter(data, nameSearch.isSelected(), input.getText(), monthSearch.isSelected(), MonthSearch.getValue());
+	            	filter.getFilteredMemberList();
+	                
+	            }
+	        }); 
+	        VBox rightLayout = new VBox(10);
+	        rightLayout.getChildren().addAll(filter, nameSearch, input, monthSearch, MonthSearch, search);
+	        for (int i=1; i<rightLayout.getChildren().size();i++)
+    			rightLayout.getChildren().get(i).setDisable(!filter.isSelected());
+	        
+	        filter.selectedProperty().addListener(new ChangeListener<Boolean>() {
+	            public void changed(ObservableValue<? extends Boolean> ov,
+	                Boolean old_val, Boolean new_val) {
+	            		for (int i=1; i<rightLayout.getChildren().size();i++)
+	            			rightLayout.getChildren().get(i).setDisable(!filter.isSelected());
+	            	   if (!filter.isSelected()) {
+	            		   data.removeAll(data);
+	            		   data.addAll( FXCollections.observableArrayList(Main.yachtClub.getMemberList()));
+	            	   }
+	            }
+	        });
+	        
+	        bp.setRight(rightLayout);
 	   }
 	  
 	@SuppressWarnings("unchecked")

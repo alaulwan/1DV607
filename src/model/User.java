@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class User {
 	public static int IDstatic = 0;
 	private int id ;
@@ -7,6 +9,7 @@ public class User {
 	private String personalNumber = new String();
 	private String userName = new String();
 	private String password = new String();
+	private LocalDate bornDate;
 	
 	public User() {
 		id=IDstatic++;
@@ -43,8 +46,9 @@ public class User {
 	public String getPersonalNumber() {
 		return personalNumber;
 	}
-	public void setPersonalNumber(String personalNumber) {
-		this.personalNumber = personalNumber;
+	public void setPersonalNumber(String PersonalNumber) {
+		this.personalNumber = PersonalNumber;
+		setBornDate(personalNumber);
 	}
 	public String getUserName() {
 		return userName;
@@ -59,5 +63,20 @@ public class User {
 		this.password = password;
 	}
 
+	public LocalDate getBornDate() {
+		return bornDate;
+	}
+
+	public void setBornDate(String PersonalNumber) {
+		String year = PersonalNumber.substring(0,2);
+		String month = PersonalNumber.substring(2,4);
+		String day = PersonalNumber.substring(4,6);
+		int Year = Integer.valueOf(year);
+		int Month = Integer.valueOf(month);
+		int Day = Integer.valueOf(day);
+		bornDate = LocalDate.of(Year, Month, Day);
+	}
+	
+	
 
 }

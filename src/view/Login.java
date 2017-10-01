@@ -20,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import yachtClub.Main;
 
 public class Login extends Application {
 ViewList v = new ViewList();
@@ -51,11 +52,13 @@ ViewList v = new ViewList();
         
        //Implementing Nodes for GridPane
         Label lblUserName = new Label("Username");
-        final TextField txtUserName = new TextField();
+        final TextField txtUserName = new TextField("secretary");
         Label lblPassword = new Label("Password");
         final PasswordField pf = new PasswordField();
-        Button btnLogin = new Button("Login  ");
-        Button ViewList = new Button("ViewList");
+        pf.setText("secretary");
+        Button btnLogin = new Button("Sign in  ");
+        Button guest = new Button("Enter as guest");
+        Button signUp = new Button("Sign Up");
         final Label lblMessage = new Label();
         
         //Adding Nodes to GridPane layout
@@ -64,7 +67,8 @@ ViewList v = new ViewList();
         gridPane.add(lblPassword, 0, 1);
         gridPane.add(pf, 1, 1);
         gridPane.add(btnLogin, 2, 1);
-        gridPane.add(ViewList, 2, 0);
+        gridPane.add(guest, 2, 0);
+        gridPane.add(signUp, 2, 2);
         gridPane.add(lblMessage, 1, 2);
         
                 
@@ -90,19 +94,40 @@ ViewList v = new ViewList();
         bp.setId("bp");
         gridPane.setId("root");
         btnLogin.setId("btnLogin");
-        ViewList.setId("btnLogin");
+        signUp.setId("btnLogin");
+        guest.setId("btnLogin");
         text.setId("text");
         
         //Action for btnLogin
         btnLogin.setOnAction(new EventHandler() {
          @Override
 		public void handle(Event arg0) {
-			// TODO Auto-generated method stub
-        	 primaryStage.getScene().setRoot(v.BorderPane());
+        	 if (Main.yachtClub.getSecretary().getUserName().equals(txtUserName.getText())) {
+    			 if (Main.yachtClub.getSecretary().getPassword().equals(pf.getText())) {
+    				 Main.yachtClub.logedInUser = Main.yachtClub.getSecretary();
+    				 primaryStage.getScene().setRoot(v.BorderPane());
+    			 }
+    		 }
+        	 for (model.Member m : Main.yachtClub.getMemberList()) {
+        		 if (m.getUserName().equals(txtUserName.getText())) {
+        			 if (m.getPassword().equals(pf.getText())) {
+        				 Main.yachtClub.logedInUser = m;
+        				 primaryStage.getScene().setRoot(v.BorderPane());
+        			 }
+        		 }
+        	 }
+        	 
 		}
          });
+        signUp.setOnAction(new EventHandler() {
+            @Override
+    		public void handle(Event arg0) {
+            	AddMemberPopup ading = new AddMemberPopup();
+            	ading.createPopup(null);
+    		}
+             });
         //Action for view list
-        ViewList.setOnAction(new EventHandler() {
+        guest.setOnAction(new EventHandler() {
          @Override
 		public void handle(Event arg0) {
 			// TODO Auto-generated method stub

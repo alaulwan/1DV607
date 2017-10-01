@@ -6,10 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -38,13 +37,19 @@ public class AddMemberPopup {
 		addBoat.setId("btnLogin");
 		Button removeBoat = new Button("Remove Boat");
 		removeBoat.setId("btnLogin");
-		Button editBoat = new Button("Edit Boat");
+		removeBoat.setDisable(true);
+		Button editBoat = new Button("Update Boat");
 		editBoat.setId("btnLogin");
+		editBoat.setDisable(true);
 		
 		TextField name = new TextField();
 		Text nam = new Text(" Name");
 		TextField PersonalNumber = new TextField();
 		Text pn = new Text(" PersonalNumber");
+		TextField userName = new TextField();
+		Text UserName = new Text(" User Name");
+		PasswordField password = new PasswordField();
+		Text Password = new Text(" Password");
 		Text bl = new Text(" Boat Length");
 		Text bt = new Text(" Boat Type");
 		TextField BoatLength = new TextField();
@@ -73,15 +78,15 @@ public class AddMemberPopup {
 	        vbox.setPadding(new Insets(10, 0, 0, 10));
 	        vbox.getChildren().add(table);
 		VBox container = new VBox(5);
-		container.getChildren().addAll(nam,name,pn,PersonalNumber,bl,BoatLength,bt,cb,addBoat,removeBoat,editBoat,done,table);
+		container.getChildren().addAll(nam,name,pn,PersonalNumber,UserName,userName, Password, password,bl,BoatLength,bt,cb,addBoat,removeBoat,editBoat,done,table);
 		HBox buttom = new HBox(5);
-		buttom.getChildren().addAll(addBoat,editBoat,removeBoat,done);
+		buttom.getChildren().addAll();
 		root.setBottom(buttom);
 		VBox center = new VBox();
 		center.getChildren().add(table);
 		root.setCenter(center);
 		VBox right = new VBox(5);
-		right.getChildren().addAll(nam,name,pn,PersonalNumber,bl,BoatLength,bt,cb);
+		right.getChildren().addAll(nam,name,pn,PersonalNumber,UserName,userName, Password, password,bl,BoatLength,bt,cb,addBoat,editBoat, removeBoat,done);
 		root.setRight(right);
 		table.setId("table-view");
 		Scene scene = new Scene(root,500,500);
@@ -90,30 +95,46 @@ public class AddMemberPopup {
 		 scene.getStylesheets().add(getClass().getClassLoader().
 				 getResource("login.css").toExternalForm());
 	     
+		 cb.setValue(Type.Other);
 		 if (member!=null) {
 			 boatsData.addAll(FXCollections.observableArrayList(member.getBoatList()));
 			 name.setText(member.getName());
 			 PersonalNumber.setText(member.getPersonalNumber());
+			 userName.setText(member.getUserName());
+			 password.setText(member.getPassword());
 			 stage.setTitle("View/Edit Member");
+		 }
+		 
+		 if (Main.yachtClub.logedInUser != member && !(Main.yachtClub.logedInUser instanceof model.Secretary) ) {
+			 addBoat.setVisible(false);
+			 removeBoat.setVisible(false);
+			 editBoat.setVisible(false);
+			 done.setVisible(false);
+			 
 		 }
 		 done.setOnAction(new EventHandler<ActionEvent>()
 	        {
 	            public void handle(ActionEvent e)
-	            {
-	            	Member newMember = new Member (name.getText(), PersonalNumber.getText(),null, null);
+	            {	
+	            	InputVerifier inputVerifier = new view.InputVerifier();
+	            	if (inputVerifier.isCorrectMember(name.getText(), PersonalNumber.getText(), userName.getText(), password.getText(), member)) {
+	            		Member newMember = new Member (name.getText(), PersonalNumber.getText(),userName.getText(), password.getText());
+		            	
+		            	newMember.setBoatList(boatsData);
+		            	if (member!=null) {
+		            		member.copyOf(newMember);
+		            		for (Boat b : member.getBoatList())
+			            		b.setOwnerId(member.getId());
+		            	}
+		            	else {
+		            		for (Boat b : newMember.getBoatList())
+			            		b.setOwnerId(newMember.getId());
+		            		Main.yachtClub.addMember(newMember);
+		            	}
+		                stage.close();
+	            	}
 	            	
-	            	newMember.setBoatList(boatsData);
-	            	if (member!=null) {
-	            		member.copyOf(newMember);
-	            		for (Boat b : member.getBoatList())
-		            		b.setOwnerId(member.getId());
-	            	}
-	            	else {
-	            		for (Boat b : newMember.getBoatList())
-		            		b.setOwnerId(newMember.getId());
-	            		Main.yachtClub.addMember(newMember);
-	            	}
-	                stage.close();
+	            	
 	            }
 	        });
 		 addBoat.setOnAction(new EventHandler<ActionEvent>()
@@ -121,10 +142,14 @@ public class AddMemberPopup {
 	            public void handle(ActionEvent e)
 	       
 	            {  
-	            	try {
-	            	     //Integer.parseInt(PersonalNumber.getText());
-	            	    	 Boat boat = new Boat((Type)cb.getValue(),Double.valueOf(BoatLength.getText()),0);
-		 	            	 boatsData.add(boat);
+	            	InputVerifier inputVerifier = new view.InputVerifier();
+            		if (inputVerifier.isCorrectBoat(BoatLength.getText())) {
+            			Boat boat = new Boat((Type)cb.getValue(),Double.valueOf(BoatLength.getText()),0);
+	 	            	 boatsData.add(boat);
+            			
+            		}
+	            	/*try {//Integer.parseInt(PersonalNumber.getText());
+	            	    	 
 	            	         //name.clear();PersonalNumber.clear();BoatLength.clear();
 	            	     }
 	            	
@@ -132,7 +157,7 @@ public class AddMemberPopup {
 	            	     //Not an integer
 	            		Alert alert = new Alert(AlertType.ERROR, "Stop outsmarting dude! ");
 	            		alert.showAndWait();
-	            	}
+	            	}*/
 	            	
 	            }
 	        });
@@ -149,17 +174,25 @@ public class AddMemberPopup {
 		 editBoat.setOnAction(new EventHandler<ActionEvent>()
 	        {
 	            public void handle(ActionEvent e)
-	            {
-	            	Boat boat = (Boat)  table.getSelectionModel().getSelectedItem();
-	            	boat.setType(cb.getValue());
-	            	boat.setLength(Double.valueOf(BoatLength.getText()));
-	            	table.refresh();
+	            {	
+	            	InputVerifier inputVerifier = new view.InputVerifier();
+            		if (inputVerifier.isCorrectBoat(BoatLength.getText())) {
+            			Boat boat = (Boat)  table.getSelectionModel().getSelectedItem();
+    	            	boat.setType(cb.getValue());
+    	            	boat.setLength(Double.valueOf(BoatLength.getText()));
+    	            	table.refresh();
+            		}
+	            	
 	            	
 	            }
 	        });
 		 table.setOnMouseClicked(event1 -> {
-			 BoatLength.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getLength()));
-			 cb.setValue(table.getSelectionModel().getSelectedItem().getType());
+			 if (table.getSelectionModel().getSelectedItem()!=null) {
+				 editBoat.setDisable(false);
+				 removeBoat.setDisable(false);
+				 BoatLength.setText(String.valueOf(table.getSelectionModel().getSelectedItem().getLength()));
+				 cb.setValue(table.getSelectionModel().getSelectedItem().getType());
+			 }
 		 });
 		stage.showAndWait();
 	    
