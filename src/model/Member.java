@@ -91,6 +91,8 @@ public class Member extends User {
 
 	public void setBoatList(List<Boat> BoatList) {
 		this.boatList = BoatList;
+		for (Boat b : boatList)
+    		b.setOwnerId(this.getId());
 	}
 
 	
@@ -102,5 +104,6 @@ public class Member extends User {
 		setUserName(Member.getUserName());
 		setPassword (Member.getPassword());
 		setBoatList (Member.getBoatList());
+		
 	}
 }

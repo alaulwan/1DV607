@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import yachtClub.Main;
 
 public class Login extends Application {
-ViewList v = new ViewList();
+ViewList viewList = new ViewList();
  String user = "JavaFX2";
  String pw = "password";
  String checkUser, checkPw;
@@ -52,10 +52,10 @@ ViewList v = new ViewList();
         
        //Implementing Nodes for GridPane
         Label lblUserName = new Label("Username");
-        final TextField txtUserName = new TextField("secretary");
+        final TextField userName = new TextField("secretary");
         Label lblPassword = new Label("Password");
-        final PasswordField pf = new PasswordField();
-        pf.setText("secretary");
+        final PasswordField password = new PasswordField();
+        password.setText("secretary");
         Button btnLogin = new Button("Sign in  ");
         Button guest = new Button("Enter as guest");
         Button signUp = new Button("Sign Up");
@@ -63,9 +63,9 @@ ViewList v = new ViewList();
         
         //Adding Nodes to GridPane layout
         gridPane.add(lblUserName, 0, 0);
-        gridPane.add(txtUserName, 1, 0);
+        gridPane.add(userName, 1, 0);
         gridPane.add(lblPassword, 0, 1);
-        gridPane.add(pf, 1, 1);
+        gridPane.add(password, 1, 1);
         gridPane.add(btnLogin, 2, 1);
         gridPane.add(guest, 2, 0);
         gridPane.add(signUp, 2, 2);
@@ -102,39 +102,27 @@ ViewList v = new ViewList();
         btnLogin.setOnAction(new EventHandler() {
          @Override
 		public void handle(Event arg0) {
-        	 if (Main.yachtClub.getSecretary().getUserName().equals(txtUserName.getText())) {
-    			 if (Main.yachtClub.getSecretary().getPassword().equals(pf.getText())) {
-    				 Main.yachtClub.logedInUser = Main.yachtClub.getSecretary();
-    				 primaryStage.setTitle("YachClub (Secretary)");
-    				 primaryStage.getScene().setRoot(v.BorderPane());
-    			 }
-    		 }
-        	 for (model.Member m : Main.yachtClub.getMemberList()) {
-        		 if (m.getUserName().equals(txtUserName.getText())) {
-        			 if (m.getPassword().equals(pf.getText())) {
-        				 Main.yachtClub.logedInUser = m;
-        				 primaryStage.setTitle("YachClub (Member: " +m.getName() +")");
-        				 primaryStage.getScene().setRoot(v.BorderPane());
-        			 }
-        		 }
+        	 if (Main.yachtClub.logIn(userName.getText(), password.getText())) {
+    				 primaryStage.setTitle("YachClub");
+    				 primaryStage.getScene().setRoot(viewList.BorderPane());
         	 }
-        	 
+    			 	 
 		}
          });
         signUp.setOnAction(new EventHandler() {
             @Override
     		public void handle(Event arg0) {
-            	AddMemberPopup ading = new AddMemberPopup();
-            	ading.createPopup(null);
+            	MemberHandler ading = new MemberHandler();
+            	ading.createPopup(null, true);
     		}
              });
         //Action for view list
         guest.setOnAction(new EventHandler() {
          @Override
 		public void handle(Event arg0) {
-        	 Main.yachtClub.logedInUser =null;
+        	 Main.yachtClub.setLogedInUser(null);
         	 primaryStage.setTitle("YachClub (Guest)");
-        	 primaryStage.getScene().setRoot(v.BorderPane());
+        	 primaryStage.getScene().setRoot(viewList.BorderPane());
 		}
          });
         //Add HBox and GridPane layout to BorderPane Layout

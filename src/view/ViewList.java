@@ -38,14 +38,14 @@ import model.YachtClubDAO;
 import yachtClub.Main;
 
 public class ViewList {
-	   BorderPane bp = new BorderPane();
-	   AddMemberPopup ading = new AddMemberPopup();
+	   BorderPane borderPane = new BorderPane();
+	   MemberHandler m_handler = new MemberHandler();
 	   ObservableList<Member> data = FXCollections.observableArrayList(Main.yachtClub.getMemberList());
 	   private  TableView<Member> table = new TableView<Member>(data);
-	   TableColumn<Member, String> name = new TableColumn<Member, String>("Member Name");
-       TableColumn<Member, String> pn = new TableColumn<Member, String>("Personal Number");
-       TableColumn<Member, Integer> id = new TableColumn<Member, Integer>("Member id");
-       TableColumn<Member, Integer> boats = new TableColumn<Member, Integer>("Number Of Boats");
+	   TableColumn<Member, String> c_name = new TableColumn<Member, String>("Member Name");
+       TableColumn<Member, String> c_personalNumber = new TableColumn<Member, String>("Personal Number");
+       TableColumn<Member, Integer> c_id = new TableColumn<Member, Integer>("Member id");
+       TableColumn<Member, Integer> c_numberOfBoats = new TableColumn<Member, Integer>("Number Of Boats");
        TextField input = new TextField();
       
        
@@ -58,15 +58,15 @@ public class ViewList {
     buildLeft();
     buildRight();
     buildtabelview();
-    bp.setId("bp");
+    borderPane.setId("bp");
     initialize();
-	return bp;
+	return borderPane;
 }
 	private void initialize() {
-	    	   name.setCellValueFactory( new PropertyValueFactory<Member, String>("name"));
-	    	   pn.setCellValueFactory(new PropertyValueFactory<Member, String>("personalNumber"));
-	    	   boats.setCellValueFactory(new PropertyValueFactory<Member, Integer>("NumberOfBoats"));
-	    	   id.setCellValueFactory(new PropertyValueFactory<Member, Integer>("Id"));
+	    	   c_name.setCellValueFactory( new PropertyValueFactory<Member, String>("name"));
+	    	   c_personalNumber.setCellValueFactory(new PropertyValueFactory<Member, String>("personalNumber"));
+	    	   c_numberOfBoats.setCellValueFactory(new PropertyValueFactory<Member, Integer>("NumberOfBoats"));
+	    	   c_id.setCellValueFactory(new PropertyValueFactory<Member, Integer>("Id"));
 	       }
 	 
 	 private void buildLeft() {
@@ -108,7 +108,7 @@ public class ViewList {
 	        {
 	            public void handle(ActionEvent e)
 	            {
-	                id.setVisible(true);
+	                c_id.setVisible(true);
 	                
 	            }
 	        });   
@@ -116,14 +116,7 @@ public class ViewList {
 	        {
 	            public void handle(ActionEvent e)
 	            {	
-	            	int oldSizeMemberList = Main.yachtClub.getMemberList().size();
-	                ading.createPopup(null);
-	                if (oldSizeMemberList < Main.yachtClub.getMemberList().size()) {
-	                	data.add(Main.yachtClub.getMemberList().get(oldSizeMemberList));
-	                	//data.removeAll(data);
-	                	//data.addAll(Main.yachtClub.getMemberList().getMembers());
-	                }
-	                table.refresh();
+	            	addMember();
 	            }
 	        });   
 	        Button compact = new Button("Compact  ");
@@ -132,7 +125,7 @@ public class ViewList {
 	        {
 	            public void handle(ActionEvent e)
 	            {
-	                id.setVisible(false);
+	                c_id.setVisible(false);
 	            }
 	        });  
 	        
@@ -140,8 +133,7 @@ public class ViewList {
 	        {
 	            public void handle(ActionEvent e)
 	            {
-	                YachtClubDAO ycDAO = new YachtClubDAO();
-	                ycDAO.jaxbObjectToXML(yachtClub.Main.yachtClub);
+	                save();
 	            }
 	        });
 	        
@@ -149,15 +141,7 @@ public class ViewList {
 	        {
 	            public void handle(ActionEvent e)
 	            {
-	            	Stage stage = (Stage) LogOut.getScene().getWindow();
-	                Login login = new Login();
-	                try {
-						login.start(stage);
-						Main.yachtClub.logedInUser=null;
-					} catch (MalformedURLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+	            	logOut();
 	            }
 	        });
 	        
@@ -167,7 +151,7 @@ public class ViewList {
 	        leftLayout.setCenter(buttonBox);
 
 	        //Place into Application.
-	        bp.setLeft(leftLayout);
+	        borderPane.setLeft(leftLayout);
 
 	 	}
 	   
@@ -177,7 +161,7 @@ public class ViewList {
 	        title.setId("text");
 	        topLayout.setCenter(title);
 	        title.setFont(Font.font("Courier New", FontWeight.BOLD, 28));
-	        bp.setTop(topLayout);
+	        borderPane.setTop(topLayout);
 	   }
 	   
 	   private void buildRight() {
@@ -196,12 +180,12 @@ public class ViewList {
 	        {
 	            public void handle(ActionEvent e)
 	            {
-	            	data.removeAll(data);
-         		    data.addAll( FXCollections.observableArrayList(Main.yachtClub.getMemberList()));
 	            	MemberFilter filter = new MemberFilter(data, nameSearch.isSelected(), input.getText(), monthSearch.isSelected(), MonthSearch.getValue());
-	            	filter.getFilteredMemberList();
+	            	search(filter);
 	                
 	            }
+
+				
 	        }); 
 	        VBox rightLayout = new VBox(10);
 	        rightLayout.getChildren().addAll(filter, nameSearch, input, monthSearch, MonthSearch, search);
@@ -220,27 +204,27 @@ public class ViewList {
 	            }
 	        });
 	        
-	        bp.setRight(rightLayout);
+	        borderPane.setRight(rightLayout);
 	   }
 	  
 	@SuppressWarnings("unchecked")
 	private void buildtabelview()
 	   {
 		   BorderPane center = new BorderPane();
-	        name.setMinWidth(100);
-	        pn.setMinWidth(100);
-	        boats.setMinWidth(100);
-	        id.setMinWidth(100);
-	        table.getColumns().addAll(name,id, pn, boats);
+	        c_name.setMinWidth(100);
+	        c_personalNumber.setMinWidth(100);
+	        c_numberOfBoats.setMinWidth(100);
+	        c_id.setMinWidth(100);
+	        table.getColumns().addAll(c_name,c_id, c_personalNumber, c_numberOfBoats);
 	        table.setMaxWidth(500);
 	        table.setEditable(true);
-	        id.setVisible(false);
+	        c_id.setVisible(false);
 	        final VBox vbox = new VBox();
 	        vbox.setSpacing(5);
 	        vbox.setPadding(new Insets(10, 0, 0, 10));
 	        vbox.getChildren().add(table);
 	        center.setCenter(vbox);
-	        bp.setCenter(vbox);
+	        borderPane.setCenter(vbox);
 	   }
 	  
 	   private void getmenu(TableRow<Member> row) {
@@ -253,40 +237,22 @@ public class ViewList {
                @Override  
                public void handle(ActionEvent event) {  
             	   Member member = (Member)table.getSelectionModel().getSelectedItem();
-	            	data.remove(member);
-	            	Main.yachtClub.removeMember(member);
-	            	table.refresh();
-                   //table.getItems().remove(row.getItem());  
-               }  
+            	   removeMember(member);
+               }
            });
            EditMenuItem.setOnAction(new EventHandler<ActionEvent>() {  
                @Override  
                public void handle(ActionEvent event) { 
-            	   Member m = (Member)table.getSelectionModel().getSelectedItem();
-	            	if (m!=null) {
-	            		ading.createPopup((Member)table.getSelectionModel().getSelectedItem());
-		                table.refresh();
-	            	}
-               }  
+            	   Member member = (Member)table.getSelectionModel().getSelectedItem();
+            	   editMember(member);
+               }
            });
            ViewMember.setOnAction(new EventHandler<ActionEvent>() {  
                @Override  
                public void handle(ActionEvent event) { 
-            	   Member m = (Member)table.getSelectionModel().getSelectedItem();
-	            	if (m!=null) {
-	            		ading.createPopup((Member)table.getSelectionModel().getSelectedItem());
-		                table.refresh();
-	            	}
-            	   /*final Stage dialog = new Stage();
-                   dialog.initModality(Modality.APPLICATION_MODAL);
-                   dialog.setTitle("Member name");
-                   VBox dialogVbox = new VBox(20);
-                   dialogVbox.setId("root");
-                   dialogVbox.getChildren().add(new Text("here we will show member ifno"));
-                   Scene dialogScene = new Scene(dialogVbox, 300, 200);
-                   dialog.setScene(dialogScene);
-                   dialog.show(); */ 
-               }  
+            	   Member member = (Member)table.getSelectionModel().getSelectedItem();
+            	   viewMember (member);
+               }
            });
            setImageIcon(ViewMember,"src/images/view.png");
            setImageIcon(removeMenuItem,"src/images/delete.png");
@@ -307,4 +273,66 @@ public class ViewList {
          imageView.setFitHeight(10);
          removeMenuItem.setGraphic(imageView);
 	}
+	
+	
+	
+	private void save() {
+		YachtClubDAO ycDAO = new YachtClubDAO();
+        ycDAO.jaxbObjectToXML(yachtClub.Main.yachtClub);
+		
+	}
+	
+	private void logOut() {
+		Stage stage = (Stage) borderPane.getScene().getWindow();
+        Login login = new Login();
+        try {
+			login.start(stage);
+			Main.yachtClub.setLogedInUser(null);
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	private void search(MemberFilter filter) {
+		data.removeAll(data);
+		    data.addAll( FXCollections.observableArrayList(Main.yachtClub.getMemberList()));
+    	filter.getFilteredMemberList();
+	}
+	
+	private void addMember() {
+		int oldSizeMemberList = Main.yachtClub.getMemberList().size();
+		boolean hasPermission = (Main.yachtClub.getLogedInUser() instanceof model.Secretary);
+        m_handler.createPopup(null, hasPermission);
+        if (oldSizeMemberList < Main.yachtClub.getMemberList().size()) {
+        	data.add(Main.yachtClub.getMemberList().get(oldSizeMemberList));
+        	//data.removeAll(data);
+        	//data.addAll(Main.yachtClub.getMemberList().getMembers());
+        }
+        table.refresh();
+	}
+	
+	private void removeMember(Member member) {
+		data.remove(member);
+    	Main.yachtClub.removeMember(member);
+    	table.refresh();
+       //table.getItems().remove(row.getItem()); 
+		
+	} 
+	
+	private void editMember(Member member) {
+		if (member!=null) {
+			boolean hasPermission = Main.yachtClub.getLogedInUser() == member || Main.yachtClub.getLogedInUser() instanceof model.Secretary;
+    		m_handler.createPopup((Member)table.getSelectionModel().getSelectedItem(), hasPermission);
+            table.refresh();
+    	}
+	}  
+	
+	private void viewMember(Member member) {
+		if (member!=null) {
+			boolean hasPermission = Main.yachtClub.getLogedInUser() == member || Main.yachtClub.getLogedInUser() instanceof model.Secretary;
+    		m_handler.createPopup((Member)table.getSelectionModel().getSelectedItem(), hasPermission);
+            table.refresh();
+    	}
+	} 
 }

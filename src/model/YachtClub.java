@@ -4,19 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import yachtClub.Main;
+
 @XmlRootElement(name = "yachtClub")
 public class YachtClub {
+	private User logedInUser;
 	private Secretary secretary;
 	private List<Member> memberList;
 	//private BoatList boatList ;
 	public YachtClub() {
-		logedInUser=null;
+		setLogedInUser(null);
 		secretary = new Secretary();
 		memberList = new ArrayList<Member> ();
 		//boatList = new BoatList();
 	}
 	
-	public User logedInUser;
+	
 	public List<Member>  getMemberList() {
 		return memberList;
 	}
@@ -60,6 +63,33 @@ public class YachtClub {
 	public int getNumberOfMembers () {
 		return memberList.size();
 	}
+	
+	public boolean logIn (String UserName, String Password) {
+		if (secretary.getUserName().equals(UserName)) {
+			 if (secretary.getPassword().equals(Password)) {
+				 setLogedInUser(secretary);
+				 return true;
+			 }
+		 }
+		for (model.Member m : Main.yachtClub.getMemberList()) {
+   		 if (m.getUserName().equals(UserName)) {
+   			 if (m.getPassword().equals(Password)) {
+   				 setLogedInUser(m);
+   				 return true;
+   			 }
+   		 }
+   	 	}
+		return false;
+	}
 
+
+	public User getLogedInUser() {
+		return logedInUser;
+	}
+
+
+	public void setLogedInUser(User logedInUser) {
+		this.logedInUser = logedInUser;
+	}
 	
 }

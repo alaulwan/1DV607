@@ -23,10 +23,10 @@ import model.Boat.Type;
 import model.Member;
 import yachtClub.Main;
 
-public class AddMemberPopup {
+public class MemberHandler {
 	
 	@SuppressWarnings("unchecked")
-	public void createPopup(Member member) {
+	public void createPopup(Member member, boolean hasPermission) {
 		BorderPane root=new BorderPane();
 		Stage stage=new Stage();
 		stage.setTitle("Add Member");
@@ -104,9 +104,9 @@ public class AddMemberPopup {
 			 password.setText(member.getPassword());
 			 stage.setTitle("View/Edit Member");
 		 }
-		 
-		 if (Main.yachtClub.logedInUser ==null || (Main.yachtClub.logedInUser != member && !(Main.yachtClub.logedInUser instanceof model.Secretary)) ) {
-			 root.setDisable(true);
+		 root.setDisable(!hasPermission);
+		 if ( true) {
+			 
 			 /*addBoat.setVisible(false);
 			 removeBoat.setVisible(false);
 			 editBoat.setVisible(false);
@@ -120,16 +120,13 @@ public class AddMemberPopup {
 	            	InputVerifier inputVerifier = new view.InputVerifier();
 	            	if (inputVerifier.isCorrectMember(name.getText(), PersonalNumber.getText(), userName.getText(), password.getText(), member)) {
 	            		Member newMember = new Member (name.getText(), PersonalNumber.getText(),userName.getText(), password.getText());
-		            	
 		            	newMember.setBoatList(boatsData);
+		            	
 		            	if (member!=null) {
-		            		member.copyOf(newMember);
-		            		for (Boat b : member.getBoatList())
-			            		b.setOwnerId(member.getId());
+		            		//member.copyOf(newMember);
+		            		Main.yachtClub.editMember(member, newMember);
 		            	}
 		            	else {
-		            		for (Boat b : newMember.getBoatList())
-			            		b.setOwnerId(newMember.getId());
 		            		Main.yachtClub.addMember(newMember);
 		            	}
 		                stage.close();
