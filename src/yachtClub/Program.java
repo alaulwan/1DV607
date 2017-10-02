@@ -13,7 +13,7 @@ import model.YachtClub;
 import model.YachtClubDAO;
 import view.Login;
 
-public class Main extends Application {
+public class Program extends Application {
 	public static YachtClub yachtClub = new YachtClub();
     public static void main(String[] args){
     	defaultProject();

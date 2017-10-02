@@ -20,7 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import yachtClub.Main;
+import yachtClub.Program;
 
 public class Login extends Application {
 ViewList viewList = new ViewList();
@@ -102,7 +102,7 @@ ViewList viewList = new ViewList();
         btnLogin.setOnAction(new EventHandler() {
          @Override
 		public void handle(Event arg0) {
-        	 if (Main.yachtClub.logIn(userName.getText(), password.getText())) {
+        	 if (Program.yachtClub.logIn(userName.getText(), password.getText())) {
     				 primaryStage.setTitle("YachClub");
     				 primaryStage.getScene().setRoot(viewList.BorderPane());
         	 }
@@ -112,15 +112,14 @@ ViewList viewList = new ViewList();
         signUp.setOnAction(new EventHandler() {
             @Override
     		public void handle(Event arg0) {
-            	MemberHandler ading = new MemberHandler();
-            	ading.createPopup(null, true);
+            	addMember();
     		}
              });
         //Action for view list
         guest.setOnAction(new EventHandler() {
          @Override
 		public void handle(Event arg0) {
-        	 Main.yachtClub.setLogedInUser(null);
+        	 Program.yachtClub.setLogedInUser(null);
         	 primaryStage.setTitle("YachClub (Guest)");
         	 primaryStage.getScene().setRoot(viewList.BorderPane());
 		}
@@ -141,4 +140,10 @@ ViewList viewList = new ViewList();
                  concat(scene.heightProperty().asString()));*/
      primaryStage.show();
     }
+
+	protected void addMember() {
+		MemberHandler ading = new MemberHandler();
+    	ading.createPopup(null, true);
+		
+	}
 }

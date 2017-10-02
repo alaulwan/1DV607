@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import model.Boat;
 import model.Boat.Type;
 import model.Member;
-import yachtClub.Main;
+import yachtClub.Program;
 
 public class MemberHandler {
 	
@@ -105,14 +105,6 @@ public class MemberHandler {
 			 stage.setTitle("View/Edit Member");
 		 }
 		 root.setDisable(!hasPermission);
-		 if ( true) {
-			 
-			 /*addBoat.setVisible(false);
-			 removeBoat.setVisible(false);
-			 editBoat.setVisible(false);
-			 done.setVisible(false);*/
-			 
-		 }
 		 done.setOnAction(new EventHandler<ActionEvent>()
 	        {
 	            public void handle(ActionEvent e)
@@ -124,10 +116,10 @@ public class MemberHandler {
 		            	
 		            	if (member!=null) {
 		            		//member.copyOf(newMember);
-		            		Main.yachtClub.editMember(member, newMember);
+		            		Program.yachtClub.editMember(member, newMember);
 		            	}
 		            	else {
-		            		Main.yachtClub.addMember(newMember);
+		            		Program.yachtClub.addMember(newMember);
 		            	}
 		                stage.close();
 	            	}

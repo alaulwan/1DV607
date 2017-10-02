@@ -35,12 +35,12 @@ import javafx.stage.Stage;
 import model.Member;
 import model.MemberFilter;
 import model.YachtClubDAO;
-import yachtClub.Main;
+import yachtClub.Program;
 
 public class ViewList {
 	   BorderPane borderPane = new BorderPane();
 	   MemberHandler m_handler = new MemberHandler();
-	   ObservableList<Member> data = FXCollections.observableArrayList(Main.yachtClub.getMemberList());
+	   ObservableList<Member> data = FXCollections.observableArrayList(Program.yachtClub.getMemberList());
 	   private  TableView<Member> table = new TableView<Member>(data);
 	   TableColumn<Member, String> c_name = new TableColumn<Member, String>("Member Name");
        TableColumn<Member, String> c_personalNumber = new TableColumn<Member, String>("Personal Number");
@@ -199,7 +199,7 @@ public class ViewList {
 	            			rightLayout.getChildren().get(i).setDisable(!filter.isSelected());
 	            	   if (!filter.isSelected()) {
 	            		   data.removeAll(data);
-	            		   data.addAll( FXCollections.observableArrayList(Main.yachtClub.getMemberList()));
+	            		   data.addAll( FXCollections.observableArrayList(Program.yachtClub.getMemberList()));
 	            	   }
 	            }
 	        });
@@ -278,7 +278,7 @@ public class ViewList {
 	
 	private void save() {
 		YachtClubDAO ycDAO = new YachtClubDAO();
-        ycDAO.jaxbObjectToXML(yachtClub.Main.yachtClub);
+        ycDAO.jaxbObjectToXML(yachtClub.Program.yachtClub);
 		
 	}
 	
@@ -287,7 +287,7 @@ public class ViewList {
         Login login = new Login();
         try {
 			login.start(stage);
-			Main.yachtClub.setLogedInUser(null);
+			Program.yachtClub.setLogedInUser(null);
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -296,16 +296,16 @@ public class ViewList {
 	
 	private void search(MemberFilter filter) {
 		data.removeAll(data);
-		    data.addAll( FXCollections.observableArrayList(Main.yachtClub.getMemberList()));
+		    data.addAll( FXCollections.observableArrayList(Program.yachtClub.getMemberList()));
     	filter.getFilteredMemberList();
 	}
 	
 	private void addMember() {
-		int oldSizeMemberList = Main.yachtClub.getMemberList().size();
-		boolean hasPermission = (Main.yachtClub.getLogedInUser() instanceof model.Secretary);
+		int oldSizeMemberList = Program.yachtClub.getMemberList().size();
+		boolean hasPermission = (Program.yachtClub.getLogedInUser() instanceof model.Secretary);
         m_handler.createPopup(null, hasPermission);
-        if (oldSizeMemberList < Main.yachtClub.getMemberList().size()) {
-        	data.add(Main.yachtClub.getMemberList().get(oldSizeMemberList));
+        if (oldSizeMemberList < Program.yachtClub.getMemberList().size()) {
+        	data.add(Program.yachtClub.getMemberList().get(oldSizeMemberList));
         	//data.removeAll(data);
         	//data.addAll(Main.yachtClub.getMemberList().getMembers());
         }
@@ -314,7 +314,7 @@ public class ViewList {
 	
 	private void removeMember(Member member) {
 		data.remove(member);
-    	Main.yachtClub.removeMember(member);
+    	Program.yachtClub.removeMember(member);
     	table.refresh();
        //table.getItems().remove(row.getItem()); 
 		
@@ -322,7 +322,7 @@ public class ViewList {
 	
 	private void editMember(Member member) {
 		if (member!=null) {
-			boolean hasPermission = Main.yachtClub.getLogedInUser() == member || Main.yachtClub.getLogedInUser() instanceof model.Secretary;
+			boolean hasPermission = Program.yachtClub.getLogedInUser() == member || Program.yachtClub.getLogedInUser() instanceof model.Secretary;
     		m_handler.createPopup((Member)table.getSelectionModel().getSelectedItem(), hasPermission);
             table.refresh();
     	}
@@ -330,8 +330,8 @@ public class ViewList {
 	
 	private void viewMember(Member member) {
 		if (member!=null) {
-			boolean hasPermission = Main.yachtClub.getLogedInUser() == member || Main.yachtClub.getLogedInUser() instanceof model.Secretary;
-    		m_handler.createPopup((Member)table.getSelectionModel().getSelectedItem(), hasPermission);
+			boolean hasPermission = Program.yachtClub.getLogedInUser() == member || Program.yachtClub.getLogedInUser() instanceof model.Secretary;
+    		m_handler.createPopup(member, hasPermission);
             table.refresh();
     	}
 	} 
