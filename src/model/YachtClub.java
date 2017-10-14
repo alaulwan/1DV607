@@ -71,7 +71,7 @@ public class YachtClub {
 				 return true;
 			 }
 		 }
-		for (model.Member m : Program.yachtClub.getMemberList()) {
+		for (model.Member m : this.getMemberList()) {
    		 if (m.getUserName().equals(UserName)) {
    			 if (m.getPassword().equals(Password)) {
    				 setLogedInUser(m);
