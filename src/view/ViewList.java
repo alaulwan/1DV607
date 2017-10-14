@@ -2,8 +2,6 @@ package view;
 
 
 import java.io.File;
-import java.net.MalformedURLException;
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,7 +29,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import model.Member;
 import model.MemberFilter;
 import model.YachtClubDAO;
@@ -137,13 +134,7 @@ public class ViewList {
 	            }
 	        });
 	        
-	        LogOut.setOnAction(new EventHandler<ActionEvent>()
-	        {
-	            public void handle(ActionEvent e)
-	            {
-	            	logOut();
-	            }
-	        });
+	       
 	        
 	        buttonBox.getChildren().addAll(AddMember, Verbose,compact,Save,LogOut);
        
@@ -282,17 +273,7 @@ public class ViewList {
 		
 	}
 	
-	private void logOut() {
-		Stage stage = (Stage) borderPane.getScene().getWindow();
-        Login login = new Login();
-        try {
-			login.start(stage);
-			Program.yachtClub.setLogedInUser(null);
-		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
+	
 	
 	private void search(MemberFilter filter) {
 		data.removeAll(data);
@@ -302,7 +283,7 @@ public class ViewList {
 	
 	private void addMember() {
 		int oldSizeMemberList = Program.yachtClub.getMemberList().size();
-		boolean hasPermission = (Program.yachtClub.getLogedInUser() instanceof model.Secretary);
+		boolean hasPermission = true;
         m_handler.createPopup(null, hasPermission);
         if (oldSizeMemberList < Program.yachtClub.getMemberList().size()) {
         	data.add(Program.yachtClub.getMemberList().get(oldSizeMemberList));
@@ -322,7 +303,7 @@ public class ViewList {
 	
 	private void editMember(Member member) {
 		if (member!=null) {
-			boolean hasPermission = Program.yachtClub.getLogedInUser() == member || Program.yachtClub.getLogedInUser() instanceof model.Secretary;
+			boolean hasPermission = true;
     		m_handler.createPopup((Member)table.getSelectionModel().getSelectedItem(), hasPermission);
             table.refresh();
     	}
@@ -330,7 +311,7 @@ public class ViewList {
 	
 	private void viewMember(Member member) {
 		if (member!=null) {
-			boolean hasPermission = Program.yachtClub.getLogedInUser() == member || Program.yachtClub.getLogedInUser() instanceof model.Secretary;
+			boolean hasPermission = true;
     		m_handler.createPopup(member, hasPermission);
             table.refresh();
     	}

@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDate;
 
 public class User {
-	public static int IDstatic = 0;
+	public static int IDstatic = 1;
 	private int id ;
 	private String name = new String();
 	private String personalNumber = new String();
