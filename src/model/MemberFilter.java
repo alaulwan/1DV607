@@ -9,8 +9,9 @@ public class MemberFilter {
 	private String name;
 	private Boolean enableMonthFilter;
 	int month;
-	
-	public MemberFilter(List<Member> MemberList, Boolean SearchByName,String Name, Boolean SearchByBirthMonth, int Month) {
+
+	public MemberFilter(List<Member> MemberList, Boolean SearchByName, String Name, Boolean SearchByBirthMonth,
+			int Month) {
 		memberList = MemberList;
 		enableNameFilter = SearchByName;
 		enableMonthFilter = SearchByBirthMonth;
@@ -18,22 +19,22 @@ public class MemberFilter {
 		month = Month;
 
 	}
-	
-	public List<Member> getFilteredMemberList(){
+
+	public List<Member> getFilteredMemberList() {
 		if (enableNameFilter) {
-			for (int i=0; i<memberList.size(); i++) {
+			for (int i = 0; i < memberList.size(); i++) {
 				if (!memberList.get(i).getName().toLowerCase().contains(name.toLowerCase()))
 					memberList.remove(i--);
 			}
 		}
-		
+
 		if (enableMonthFilter) {
-			for (int i=0; i<memberList.size(); i++) {
+			for (int i = 0; i < memberList.size(); i++) {
 				if (!memberList.get(i).getBirthDate().getMonth().equals(Month.of(month)))
 					memberList.remove(i--);
 			}
 		}
-		
+
 		return memberList;
 	}
 }

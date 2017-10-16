@@ -5,7 +5,6 @@ import java.util.List;
 
 //import javafx.beans.property.SimpleStringProperty;
 
-
 public class Member extends User {
 
 	
