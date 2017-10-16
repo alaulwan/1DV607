@@ -2,8 +2,6 @@ package view;
 
 import java.io.File;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,8 +9,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -29,7 +25,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
 import model.Member;
-import model.MemberFilter;
 import model.YachtClubDAO;
 import yachtClub.Program;
 
@@ -53,7 +48,6 @@ public class ViewList {
 		});
 		buildTop();
 		buildLeft();
-		buildRight();
 		buildtabelview();
 		borderPane.setId("bp");
 		initialize();
@@ -92,14 +86,10 @@ public class ViewList {
 		Button Verbose = new Button("Verbose List");
 		// Set All Buttons to the same size.
 		AddMember.setMaxWidth(Double.MAX_VALUE);
-		// Create Button 2
-		Button LogOut = new Button();
-		LogOut.setText("LogOut");
-		LogOut.setMaxWidth(Double.MAX_VALUE);
+		
 		Button Save = new Button("Save");
 		Save.setMaxWidth(Double.MAX_VALUE);
 		AddMember.setId("btnLogin");
-		LogOut.setId("btnLogin");
 		Save.setId("btnLogin");
 		Verbose.setId("btnLogin");
 		Verbose.setOnAction(new EventHandler<ActionEvent>() {
@@ -127,7 +117,7 @@ public class ViewList {
 			}
 		});
 
-		buttonBox.getChildren().addAll(AddMember, Verbose, compact, Save, LogOut);
+		buttonBox.getChildren().addAll(AddMember, Verbose, compact, Save);
 
 		// Add VBox to leftLayout.
 		leftLayout.setCenter(buttonBox);
@@ -146,45 +136,7 @@ public class ViewList {
 		borderPane.setTop(topLayout);
 	}
 
-	private void buildRight() {
-		TextField input = new TextField();
-		input.setPromptText("Search");
-		CheckBox filter = new CheckBox("Enable filter");
-		filter.setId("btnLogin");
-		CheckBox nameSearch = new CheckBox("Name");
-		CheckBox monthSearch = new CheckBox("Birth Data(Month)");
-		ChoiceBox<Integer> MonthSearch = new ChoiceBox<Integer>();
-		MonthSearch.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
-		MonthSearch.setValue(1);
-		Button search = new Button("Search");
-		search.setId("btnLogin");
-		search.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent e) {
-				MemberFilter filter = new MemberFilter(data, nameSearch.isSelected(), input.getText(),
-						monthSearch.isSelected(), MonthSearch.getValue());
-				search(filter);
 
-			}
-
-		});
-		VBox rightLayout = new VBox(10);
-		rightLayout.getChildren().addAll(filter, nameSearch, input, monthSearch, MonthSearch, search);
-		for (int i = 1; i < rightLayout.getChildren().size(); i++)
-			rightLayout.getChildren().get(i).setDisable(!filter.isSelected());
-
-		filter.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-				for (int i = 1; i < rightLayout.getChildren().size(); i++)
-					rightLayout.getChildren().get(i).setDisable(!filter.isSelected());
-				if (!filter.isSelected()) {
-					data.removeAll(data);
-					data.addAll(FXCollections.observableArrayList(Program.yachtClub.getMemberList()));
-				}
-			}
-		});
-
-		borderPane.setRight(rightLayout);
-	}
 
 	@SuppressWarnings("unchecked")
 	private void buildtabelview() {
@@ -262,11 +214,6 @@ public class ViewList {
 
 	}
 
-	private void search(MemberFilter filter) {
-		data.removeAll(data);
-		data.addAll(FXCollections.observableArrayList(Program.yachtClub.getMemberList()));
-		filter.getFilteredMemberList();
-	}
 
 	private void addMember() {
 		int oldSizeMemberList = Program.yachtClub.getMemberList().size();
