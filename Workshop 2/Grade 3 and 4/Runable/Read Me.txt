@@ -1,0 +1,29 @@
+
+
+The runable program is stored as a jar file named "YachtClub.jar". The program tested on WINDOWS and MAC.
+To run the program:
+There are two ways to run the program:
+
+On windows:
+- first way: duble click on the jar file named "YachtClub.jar".
+Or
+- second way: duble click on the batch file named "YachtClub.bat".
+Or
+- Third way: in a console, in the same directory as YachtClub.jar is stored, type "java -jar YachtClub.jar"
+
+On Mac:
+- first way: duble click on the jar file named "YachtClub.jar".
+Or
+- second way: in a console, in the same directory as YachtClub.jar is stored, type "java -jar YachtClub.jar"
+
+Requirement:
+It requires a JRE-8 (Java Runtime Environment) or later to be installed on your host machine. You find the latest version to download at https://www.java.com/inc/BrowserRedirect1.jsp?locale=en
+
+
+Note: The database is a file named "yachtClub.xml" will be created  in the same folder as "YachtClub.jar" is located.
+The defaut database have three users (2 member and 1 secretary):
+member1: userName:aaaa and password:aaaa
+member1: userName:bbbb and password:bbbb
+Secretary: userName:secretary and password:secretary
+
+If you loged in as Secretary, you can edit all members. If you loged in as Smember, you can view all members, but you can edit just your information.

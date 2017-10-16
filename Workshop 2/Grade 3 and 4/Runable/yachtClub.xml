@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<yachtClub>
+    <memberList>
+        <id>1</id>
+        <name>member1</name>
+        <password>aaaa</password>
+        <personalNumber>101010-5555</personalNumber>
+        <userName>aaaa</userName>
+        <boatList>
+            <id>1</id>
+            <length>5.0</length>
+            <ownerId>1</ownerId>
+            <type>Sailboat</type>
+        </boatList>
+        <boatList>
+            <id>2</id>
+            <length>4.0</length>
+            <ownerId>1</ownerId>
+            <type>kayak</type>
+        </boatList>
+    </memberList>
+    <memberList>
+        <id>2</id>
+        <name>member2</name>
+        <password>bbbb</password>
+        <personalNumber>111111-6666</personalNumber>
+        <userName>bbbb</userName>
+        <boatList>
+            <id>3</id>
+            <length>3.0</length>
+            <ownerId>2</ownerId>
+            <type>Motorsailer</type>
+        </boatList>
+    </memberList>
+    <secretary>
+        <id>3</id>
+        <name>Secretary</name>
+        <password>secretary</password>
+        <personalNumber>121212-1111</personalNumber>
+        <userName>secretary</userName>
+    </secretary>
+</yachtClub>
