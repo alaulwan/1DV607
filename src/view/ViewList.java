@@ -156,8 +156,8 @@ public class ViewList {
 	}
 
 	private void buildRight() {
-		TextField input = new TextField();
-		input.setPromptText("Search");
+		TextField NameSearch = new TextField();
+		NameSearch.setPromptText("Search");
 		CheckBox filter = new CheckBox("Enable filter");
 		filter.setId("btnLogin");
 		CheckBox nameSearch = new CheckBox("Name");
@@ -169,7 +169,7 @@ public class ViewList {
 		search.setId("btnLogin");
 		search.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
-				MemberFilter filter = new MemberFilter(data, nameSearch.isSelected(), input.getText(),
+				MemberFilter filter = new MemberFilter(data, nameSearch.isSelected(), NameSearch.getText(),
 						monthSearch.isSelected(), MonthSearch.getValue());
 				search(filter);
 
@@ -177,7 +177,7 @@ public class ViewList {
 
 		});
 		VBox rightLayout = new VBox(10);
-		rightLayout.getChildren().addAll(filter, nameSearch, input, monthSearch, MonthSearch, search);
+		rightLayout.getChildren().addAll(filter, nameSearch, NameSearch, monthSearch, MonthSearch, search);
 		for (int i = 1; i < rightLayout.getChildren().size(); i++)
 			rightLayout.getChildren().get(i).setDisable(!filter.isSelected());
 

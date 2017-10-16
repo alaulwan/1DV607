@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import yachtClub.Program;
-
 @XmlRootElement(name = "yachtClub")
 public class YachtClub {
 	private User logedInUser;
