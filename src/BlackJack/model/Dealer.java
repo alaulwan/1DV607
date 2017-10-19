@@ -9,11 +9,11 @@ public class Dealer extends Player {
   private IHitStrategy m_hitRule;
   private IWinStrategy m_winRule;
 
-  public Dealer(RulesFactory a_rulesFactory) {
+  public Dealer(IRulesFactory rules) {
   
-    m_newGameRule = a_rulesFactory.GetNewGameRule();
-    m_winRule = a_rulesFactory.GetWinRule();
-    m_hitRule = a_rulesFactory.GetHitRule();
+    m_newGameRule = rules.GetNewGameRule();
+    m_winRule = rules.GetWinRule();
+    m_hitRule = rules.GetHitRule();
     
     /*for(Card c : m_deck.GetCards()) {
       c.Show(true);

@@ -1,13 +1,18 @@
 package BlackJack.model;
 
+import BlackJack.model.rules.*;
+
 public class Game {
 
   private Dealer m_dealer;
   private Player m_player;
+  private IRulesFactory rules;
 
   public Game()
   {
-    m_dealer = new Dealer(new BlackJack.model.rules.RulesFactory());
+	IRulesCombinationsFactory rulesCombinationsFactory = new RulesCombinationsFactory();
+	rules = rulesCombinationsFactory.AmericanSoft17DealerRules();
+    m_dealer = new Dealer(rules);
     m_player = new Player();
   }
     
@@ -60,6 +65,10 @@ public class Game {
   public void AddListner(IObserver a_subscriber){
 		m_player.AddListner(a_subscriber);
 		m_dealer.AddListner(a_subscriber);
+	}
+  
+  public void Accept(IRulesVisitor a_visitor) {
+		a_visitor.PrintRules(rules);
 	}
   
 }

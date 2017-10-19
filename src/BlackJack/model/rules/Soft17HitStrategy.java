@@ -10,7 +10,7 @@ class Soft17HitStrategy implements IHitStrategy{
 		int Score = a_dealer.CalcScore();
 		int ScoreWithLowAce = a_dealer.ScoreWithLowAce();
 		
-		if (Score-ScoreWithLowAce==9 &&  ScoreWithLowAce <= g_hitLimit)
+		if (Score-ScoreWithLowAce==10 &&  ScoreWithLowAce <= g_hitLimit)
 			return true;
 		
 		return a_dealer.CalcScore() < g_hitLimit;

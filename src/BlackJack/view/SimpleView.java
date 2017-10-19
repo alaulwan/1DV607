@@ -1,5 +1,7 @@
 package BlackJack.view;
 
+import BlackJack.model.Game;
+
 public class SimpleView implements IView {
 
   public void DisplayWelcomeMessage()
@@ -79,5 +81,11 @@ public class SimpleView implements IView {
                 System.out.println("You Won!");
             }
             
+        }
+        
+        public void DisplayRules(Game a_game) {
+        	RulePrinterVisitor visitor = new RulePrinterVisitor();
+        	a_game.Accept(visitor);
+        	
         }
     }

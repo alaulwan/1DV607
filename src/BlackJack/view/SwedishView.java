@@ -1,5 +1,7 @@
 package BlackJack.view;
 
+import BlackJack.model.Game;
+
 public class SwedishView implements IView 
     {
         public void DisplayWelcomeMessage()
@@ -89,5 +91,10 @@ public class SwedishView implements IView
             }
             System.out.println("Poäng: " + a_score);
             System.out.println("");
+        }
+        
+        public void DisplayRules(Game a_game) {
+        	RulePrinterVisitor visitor = new RulePrinterVisitor();
+        	a_game.Accept(visitor);
         }
     }

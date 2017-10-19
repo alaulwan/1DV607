@@ -78,12 +78,15 @@ public class Player {
   
   public int ScoreWithLowAce()
   {
+	  	int numberOfAce = 0;
 		int ScoreWithLowAce = CalcScore();
 		for (Card c : GetHand()) {
 			if (c.GetValue() == Card.Value.Ace) {
-				ScoreWithLowAce -=9;
+				numberOfAce++;
 			}
 		}
+		if (numberOfAce>0 && ScoreWithLowAce + numberOfAce*10 < 22)
+			ScoreWithLowAce-=10;
 		return ScoreWithLowAce;
   }
 

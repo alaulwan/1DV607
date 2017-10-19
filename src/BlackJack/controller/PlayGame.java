@@ -19,6 +19,7 @@ public class PlayGame implements IObserver {
   public boolean Play() {
 	
     a_view.DisplayWelcomeMessage();
+    a_view.DisplayRules(a_game);
     a_view.DisplayDealerHand(a_game.GetDealerHand(), a_game.GetDealerScore());
     a_view.DisplayPlayerHand(a_game.GetPlayerHand(), a_game.GetPlayerScore());
 
