@@ -84,8 +84,12 @@ public class SimpleView implements IView {
         }
         
         public void DisplayRules(Game a_game) {
-        	RulePrinterVisitor visitor = new RulePrinterVisitor();
-        	a_game.Accept(visitor);
+		RulePrinterVisitor visitor = new RulePrinterVisitor();
+		a_game.Accept(visitor);
+		System.out.println("Game Strategy: " + visitor.getNewGameStrategy());
+		System.out.println("Hit Strategy: " + visitor.getHitRule());
+		System.out.println("Win Strategy: " + visitor.getWinRule());
+		System.out.println("");
         	
         }
     }

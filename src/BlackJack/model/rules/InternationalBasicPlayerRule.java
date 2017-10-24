@@ -1,12 +1,12 @@
 package BlackJack.model.rules;
 
-public class InternationalBasicPlayerRule implements IRulesFactory {
-	
+class InternationalBasicPlayerRule implements IRulesFactory {
+
 	@Override
 	public INewGameStrategy GetNewGameRule() {
 		return new InternationalNewGameStrategy();
 	}
-	
+
 	@Override
 	public IHitStrategy GetHitRule() {
 		return new BasicHitStrategy();
@@ -16,5 +16,11 @@ public class InternationalBasicPlayerRule implements IRulesFactory {
 	public IWinStrategy GetWinRule() {
 		return new PlayerWinStrategy();
 	}
-	
+
+	@Override
+	public void Accept(IRulesVisitor a_visitor) {
+		a_visitor.getRules("International", "Basic", "Player");
+
+	}
+
 }

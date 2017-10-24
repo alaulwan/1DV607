@@ -4,71 +4,60 @@ import BlackJack.model.rules.*;
 
 public class Game {
 
-  private Dealer m_dealer;
-  private Player m_player;
-  private IRulesFactory rules;
+	private Dealer m_dealer;
+	private Player m_player;
+	private IRulesFactory rules;
 
-  public Game()
-  {
-	IRulesCombinationsFactory rulesCombinationsFactory = new RulesCombinationsFactory();
-	rules = rulesCombinationsFactory.AmericanSoft17DealerRules();
-    m_dealer = new Dealer(rules);
-    m_player = new Player();
-  }
-    
-    
-  public boolean IsGameOver()
-  {
-    return m_dealer.IsGameOver();
-  }
-  
-  public boolean IsDealerWinner()
-  {
-    return m_dealer.IsDealerWinner(m_player);
-  }
-  
-  public boolean NewGame()
-  {
-    return m_dealer.NewGame(m_player);
-  }
-  
-  public boolean Hit()
-  {
-    return m_dealer.Hit(m_player);
-  }
-  
-  public boolean Stand()
-  {
-	return m_dealer.Stand();
-  }
-  
-  public Iterable<Card> GetDealerHand()
-  {
-    return m_dealer.GetHand();
-  }
-  
-  public Iterable<Card> GetPlayerHand()
-  {
-    return m_player.GetHand();
-  }
-  
-  public int GetDealerScore()
-  {
-    return m_dealer.CalcScore();
-  }
-  
-  public int GetPlayerScore()
-  {
-    return m_player.CalcScore();
-  }
-    
-  public void AddListner(IObserver a_subscriber){
+	public Game() {
+		IRulesCombinationsFactory rulesCombinationsFactory = new RulesCombinationsFactory();
+		rules = rulesCombinationsFactory.AmericanSoft17DealerRules();
+		m_dealer = new Dealer(rules);
+		m_player = new Player();
+	}
+
+	public boolean IsGameOver() {
+		return m_dealer.IsGameOver();
+	}
+
+	public boolean IsDealerWinner() {
+		return m_dealer.IsDealerWinner(m_player);
+	}
+
+	public boolean NewGame() {
+		return m_dealer.NewGame(m_player);
+	}
+
+	public boolean Hit() {
+		return m_dealer.Hit(m_player);
+	}
+
+	public boolean Stand() {
+		return m_dealer.Stand();
+	}
+
+	public Iterable<Card> GetDealerHand() {
+		return m_dealer.GetHand();
+	}
+
+	public Iterable<Card> GetPlayerHand() {
+		return m_player.GetHand();
+	}
+
+	public int GetDealerScore() {
+		return m_dealer.CalcScore();
+	}
+
+	public int GetPlayerScore() {
+		return m_player.CalcScore();
+	}
+
+	public void AddListner(IObserver a_subscriber) {
 		m_player.AddListner(a_subscriber);
 		m_dealer.AddListner(a_subscriber);
 	}
-  
-  public void Accept(IRulesVisitor a_visitor) {
-		a_visitor.PrintRules(rules);
+
+	public void Accept(IRulesVisitor a_visitor) {
+		rules.Accept(a_visitor);
 	}
-  
+
 }

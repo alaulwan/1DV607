@@ -1,12 +1,12 @@
 package BlackJack.model.rules;
 
-public class AmericanSoft17DealerRule implements IRulesFactory {
-	
+class AmericanSoft17DealerRule implements IRulesFactory {
+
 	@Override
 	public INewGameStrategy GetNewGameRule() {
 		return new AmericanNewGameStrategy();
 	}
-	
+
 	@Override
 	public IHitStrategy GetHitRule() {
 		return new Soft17HitStrategy();
@@ -16,6 +16,11 @@ public class AmericanSoft17DealerRule implements IRulesFactory {
 	public IWinStrategy GetWinRule() {
 		return new DealerWinStrategy();
 	}
-	
-}
 
+	@Override
+	public void Accept(IRulesVisitor a_visitor) {
+		a_visitor.getRules("American", "Soft17", "Dealer");
+
+	}
+
+}

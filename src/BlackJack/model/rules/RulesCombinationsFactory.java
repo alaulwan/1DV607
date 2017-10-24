@@ -8,7 +8,7 @@ public class RulesCombinationsFactory implements IRulesCombinationsFactory {
 	}
 
 	@Override
-	public IRulesFactory InternationalBasicPlayes () {
+	public IRulesFactory InternationalBasicPlayes() {
 		return new InternationalBasicPlayerRule();
 	}
 

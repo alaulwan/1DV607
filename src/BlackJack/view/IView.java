@@ -8,8 +8,9 @@ public interface IView {
 	}
 
 	void DisplayWelcomeMessage();
+
 	void DisplayRules(Game a_game);
-	
+
 	Order GetInput();
 
 	void DisplayCard(BlackJack.model.Card a_card);
@@ -20,5 +21,4 @@ public interface IView {
 
 	void DisplayGameOver(boolean a_dealerIsWinner);
 
-	
 }

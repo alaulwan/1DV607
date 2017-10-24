@@ -3,29 +3,38 @@ package BlackJack.view;
 import BlackJack.model.rules.*;
 
 public class RulePrinterVisitor implements IRulesVisitor {
+	String newGameStrategy;
+	String hitRule;
+	String winRule;
+
+	public String getNewGameStrategy() {
+		return newGameStrategy;
+	}
+
+	public void setNewGameStrategy(String newGameStrategy) {
+		this.newGameStrategy = newGameStrategy;
+	}
+
+	public String getHitRule() {
+		return hitRule;
+	}
+
+	public void setHitRule(String hitRule) {
+		this.hitRule = hitRule;
+	}
+
+	public String getWinRule() {
+		return winRule;
+	}
+
+	public void setWinRule(String winRule) {
+		this.winRule = winRule;
+	}
 
 	@Override
-	public void PrintRules(IRulesFactory rules) {
-		if (rules instanceof AmericanBasicDealerRule) {
-			System.out.println("Game Strategy: American");
-			System.out.println("Hit Strategy: Basic");
-			System.out.println("Win Strategy: Dealer");
-			System.out.println("");
-		}
-		else if (rules instanceof AmericanSoft17DealerRule) {
-				System.out.println("Game Strategy: American");
-				System.out.println("Hit Strategy: Soft-17");
-				System.out.println("Win Strategy: Dealer");
-				System.out.println("");
-			
-		}
-		else if (rules instanceof InternationalBasicPlayerRule) {
-			System.out.println("Game Strategy: International");
-			System.out.println("Hit Strategy: Soft-17");
-			System.out.println("Win Strategy: Player");
-			System.out.println("");
-		
-	}
-		
+	public void getRules(String NewGameStrategy, String HitRule, String WinRule) {
+		this.setNewGameStrategy(NewGameStrategy);
+		this.setHitRule(HitRule);
+		this.setWinRule(WinRule);
 	}
 }

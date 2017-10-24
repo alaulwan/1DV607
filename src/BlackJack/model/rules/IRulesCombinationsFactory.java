@@ -7,5 +7,4 @@ public interface IRulesCombinationsFactory {
 
 	public IRulesFactory AmericanSoft17DealerRules();
 
-
 }
