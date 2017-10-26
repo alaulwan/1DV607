@@ -1,0 +1,17 @@
+
+
+The runable program is stored as a jar file named "BlackJack.jar". The program tested on WINDOWS and MAC.
+To run the program:
+
+On windows:
+- first way: duble click on the batch file named "BlackJack.bat".
+Or
+- second way: in a console, in the same directory as BlackJack.jar is stored, type "java -jar BlackJack.jar"
+----------------------------------------------------------------------
+On Mac:
+In a console, in the same directory as BlackJack.jar is stored, type "java -jar BlackJack.jar"
+
+Requirement:
+It requires a JRE-8 (Java Runtime Environment 8) or later to be installed on your host machine. You find the latest version to download at https://www.java.com/inc/BrowserRedirect1.jsp?locale=en
+
+
