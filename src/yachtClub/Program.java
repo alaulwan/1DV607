@@ -41,9 +41,9 @@ public class Program extends Application {
 	private static void defaultProject() {
 		yachtClub.addMember(new Member("member1", "101010-5555", "aaaa", "aaaa"));
 		yachtClub.addMember(new Member("member2", "111111-6666", "bbbb", "bbbb"));
-		yachtClub.getMember(1).addBoat(new Boat(Type.Sailboat, 5, 1));
-		yachtClub.getMember(1).addBoat(new Boat(Type.kayak, 4, 1));
-		yachtClub.getMember(2).addBoat(new Boat(Type.Motorsailer, 3, 2));
+		yachtClub.getMemberById(1).addBoat(new Boat(Type.Sailboat, 5, 1));
+		yachtClub.getMemberById(1).addBoat(new Boat(Type.kayak, 4, 1));
+		yachtClub.getMemberById(2).addBoat(new Boat(Type.Motorsailer, 3, 2));
 
 	}
 

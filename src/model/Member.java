@@ -2,15 +2,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-//import javafx.beans.property.SimpleStringProperty;
+import javax.xml.bind.annotation.XmlElement;
 
 public class Member extends User {
-
+	@XmlElement(name = "boatList")
 	private List<Boat> boatList;
-	// private final SimpleStringProperty MemberName;
-	// private final SimpleStringProperty MemberID;
-	// private final SimpleStringProperty NumberOfBoats;
 
 	public Member() {
 		super();
@@ -19,45 +15,14 @@ public class Member extends User {
 	}
 
 	public Member(String MemberName, String MemberID) {
-		// this.MemberName = new SimpleStringProperty(MemberName);
-		// this.MemberID = new SimpleStringProperty(MemberID);
-		// this.NumberOfBoats = new SimpleStringProperty(NumberOfBoats);
 		super(MemberName, MemberID);
 		boatList = new ArrayList<Boat>();
 
 	}
 
-	/*
-	 * public String getMemberName() { return MemberName.get(); }
-	 */
-
-	/*
-	 * public void setName(String Name) { MemberName.set(Name); }
-	 */
-
-	/*
-	 * public String getMemberID() { return MemberID.get(); }
-	 */
-
-	/*
-	 * public void setID(String id) { MemberID.set(id); }
-	 */
-
-	/*
-	 * public String getNumberOfBoats() { return NumberOfBoats.get(); }
-	 */
-
-	/*
-	 * public void setNumberOfBoats(String BNum) { NumberOfBoats.set(BNum); }
-	 */
-
 	public Member(String Name, String PersonalNumber, String UserName, String Password) {
 		super(Name, PersonalNumber, UserName, Password);
 		boatList = new ArrayList<Boat>();
-	}
-
-	public List<Boat> getBoatList() {
-		return boatList;
 	}
 
 	public int getNumberOfBoats() {
@@ -70,25 +35,40 @@ public class Member extends User {
 		boatList.add(Boat);
 	}
 
-	public void removeBoat(Boat Boat) {
-		boatList.remove(Boat);
+	public void removeBoat(int boatId) {
+		Boat boat = getBoatById(boatId);
+		if (boat != null)
+			boatList.remove(boat);
+
 	}
 
-	public void editBoat(Boat oldBoat, Boat newBoat) {
-		oldBoat.copyOf(newBoat);
+	public void editBoat(int oldBoatId, Boat newBoat) {
+		Boat oldBoat = getBoatById(oldBoatId);
+		if (oldBoat != null)
+			oldBoat.copyOf(newBoat);
 	}
 
-	public Boat getBoat(int ID) {
+	public Boat getBoatById(int ID) {
 		for (Boat Boat : boatList)
 			if (Boat.getId() == ID)
 				return Boat;
 		return null;
 	}
 
-	public void setBoatList(List<Boat> BoatList) {
-		this.boatList = BoatList;
-		for (Boat b : boatList)
+	public Boat getBoatByIndex(int index) {
+		if (index < getNumberOfBoats() && index > -1)
+			return boatList.get(index);
+		return null;
+	}
+
+	public void removeAllBoats() {
+		this.boatList.removeAll(boatList);
+	}
+
+	public void addAllBoats(List<Boat> BoatList) {
+		for (Boat b : BoatList)
 			b.setOwnerId(this.getId());
+		this.boatList.addAll(BoatList);
 	}
 
 	public void copyOf(Member Member) {
@@ -96,7 +76,10 @@ public class Member extends User {
 		setPersonalNumber(Member.getPersonalNumber());
 		setUserName(Member.getUserName());
 		setPassword(Member.getPassword());
-		setBoatList(Member.getBoatList());
+		boatList = new ArrayList<Boat>();
+		for (int i = 0; i < Member.getNumberOfBoats(); i++) {
+			this.addBoat(Member.getBoatByIndex(i));
+		}
 
 	}
 }

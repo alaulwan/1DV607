@@ -5,10 +5,10 @@ import java.time.LocalDate;
 public class User {
 	public static int IDstatic = 1;
 	private int id;
-	private String name = new String();
-	private String personalNumber = new String();
-	private String userName = new String();
-	private String password = new String();
+	private String name;
+	private String personalNumber;
+	private String userName;
+	private String password;
 	private LocalDate birthDate;
 
 	public User() {

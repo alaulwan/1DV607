@@ -98,14 +98,24 @@ public class MemberHandler {
 
 		cb.setValue(Type.Other);
 		if (member != null) {
-			boatsData.addAll(FXCollections.observableArrayList(member.getBoatList()));
+			// Copy boats-information to the list "boatsData". Please note it just copy
+			// the information from the internal list. But they still completely different
+			// lists.
+			// So, the internal list will not be wrapped by the list "boatsData"
+			for (int i = 0; i < member.getNumberOfBoats(); i++) {
+				Boat b = new Boat();
+				b.copyOf(member.getBoatByIndex(i));
+				b.setId(member.getBoatByIndex(i).getId());
+				boatsData.add(b);
+			}
+			// boatsData.addAll(FXCollections.observableArrayList(member.getBoatList()));
 			name.setText(member.getName());
 			PersonalNumber.setText(member.getPersonalNumber());
 			userName.setText(member.getUserName());
 			password.setText(member.getPassword());
 			stage.setTitle("View/Edit Member");
 		}
-		
+
 		// Done button action
 		done.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
@@ -115,11 +125,12 @@ public class MemberHandler {
 						password.getText(), member)) {
 					Member newMember = new Member(name.getText(), PersonalNumber.getText(), userName.getText(),
 							password.getText());
-					newMember.setBoatList(boatsData);
+					newMember.addAllBoats(boatsData);
 
-					if (member != null) {	// if member !=null, then edit this member in the member-list
-						Program.yachtClub.editMember(member, newMember);
-					} else {		// if member ==null, then add the created member to the member-list
+					if (member != null) { // if member !=null, then edit this member in the member-list
+						member.copyOf(newMember);
+						Program.yachtClub.editMember(member.getId(), newMember);
+					} else { // if member ==null, then add the created member to the member-list
 						Program.yachtClub.addMember(newMember);
 					}
 					stage.close();
@@ -127,33 +138,35 @@ public class MemberHandler {
 
 			}
 		});
-		
-		
+
 		// add Boat button action
 		addBoat.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e)
 
 			{
 				InputVerifier inputVerifier = new view.InputVerifier();
-				if (inputVerifier.isCorrectBoat(BoatLength.getText())) {	// if user-inputs is correct, add new boat
+				if (inputVerifier.isCorrectBoat(BoatLength.getText())) { // if user-inputs is correct, add new boat
 					Boat boat = new Boat((Type) cb.getValue(), Double.valueOf(BoatLength.getText()), 0);
 					boatsData.add(boat);
-
+					if (member != null)
+						member.addBoat(boat);
 				}
 
 			}
 		});
-		
+
 		// Remove Boat button action
 		removeBoat.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				Boat boat = (Boat) table.getSelectionModel().getSelectedItem();
 				boatsData.remove(boat);
-				// Main.yachtClub.getMemberList().getMember(member.getId()).getBoats().getBoats().remove(boat);
-
+				if (member != null) {
+					member.removeBoat(boat.getId());
+					Program.yachtClub.getMemberById(member.getId()).removeBoat(boat.getId());
+				}
 			}
 		});
-		
+
 		// Update Boat button action
 		editBoat.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
@@ -162,12 +175,14 @@ public class MemberHandler {
 					Boat boat = (Boat) table.getSelectionModel().getSelectedItem();
 					boat.setType(cb.getValue());
 					boat.setLength(Double.valueOf(BoatLength.getText()));
+					if (member != null)
+						member.editBoat(boat.getId(), boat);
 					table.refresh();
 				}
 
 			}
 		});
-		
+
 		// boat-table(UI) click-action
 		table.setOnMouseClicked(event1 -> {
 			if (table.getSelectionModel().getSelectedItem() != null) {

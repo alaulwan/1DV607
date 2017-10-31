@@ -2,7 +2,6 @@ package view;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import model.Member;
@@ -19,7 +18,11 @@ public class InputVerifier {
 
 	public boolean isCorrectBoat(String Length) {
 		try {
-			Double.parseDouble(Length);
+			Double length = Double.parseDouble(Length);
+			if (length < 1) {
+				alertWindow(AlertType.ERROR, "ERROR!", "Cannot add boat!", "Length should be 1 or more");
+				return false;
+			}
 		} catch (NumberFormatException e) {
 			alertWindow(AlertType.ERROR, "ERROR!", "Cannot add boat!", "Length should be a float number");
 			return false;
@@ -42,7 +45,8 @@ public class InputVerifier {
 			return false;
 		}
 		if (Member == null) {
-			for (Member m : Program.yachtClub.getMemberList()) {
+			for (int i = 0; i < Program.yachtClub.getNumberOfMembers(); i++) {
+				Member m = Program.yachtClub.getMemberByIndex(i);
 				if (m.getUserName().equals(UserName)) {
 					alertWindow(AlertType.ERROR, "ERROR!", "Cannot add member!", "UserName is already exists");
 					return false;
@@ -60,7 +64,8 @@ public class InputVerifier {
 			return false;
 		}
 		if (Member == null) {
-			for (Member m : Program.yachtClub.getMemberList()) {
+			for (int i = 0; i < Program.yachtClub.getNumberOfMembers(); i++) {
+				Member m = Program.yachtClub.getMemberByIndex(i);
 				if (m.getPersonalNumber().equals(PersonalNumber)) {
 					alertWindow(AlertType.ERROR, "ERROR!", "Cannot add member!", "Personal Number is already exists");
 					return false;

@@ -31,8 +31,8 @@ import yachtClub.Program;
 public class ViewList {
 	BorderPane borderPane = new BorderPane();
 	MemberHandler m_handler = new MemberHandler();
-	ObservableList<Member> data = FXCollections.observableArrayList(Program.yachtClub.getMemberList());
-	private TableView<Member> table = new TableView<Member>(data);
+	ObservableList<Member> memberData = FXCollections.observableArrayList();
+	private TableView<Member> table = new TableView<Member>(memberData);
 	TableColumn<Member, String> c_name = new TableColumn<Member, String>("Member Name");
 	TableColumn<Member, String> c_personalNumber = new TableColumn<Member, String>("Personal Number");
 	TableColumn<Member, Integer> c_id = new TableColumn<Member, Integer>("Member id");
@@ -40,6 +40,16 @@ public class ViewList {
 	TextField input = new TextField();
 
 	public BorderPane BorderPane() {
+		// Copy members-information to the list "memberData". Please note it just copy
+		// the information from the internal list. But they still completely different
+		// lists.
+		// So, the internal list will not be wrapped by the list "memberData"
+		for (int i = 0; i < Program.yachtClub.getNumberOfMembers(); i++) {
+			Member m = new Member();
+			m.copyOf(Program.yachtClub.getMemberByIndex(i));
+			m.setId(Program.yachtClub.getMemberByIndex(i).getId());
+			memberData.add(m);
+		}
 		table.setId("table-view");
 		table.setRowFactory(tableView -> {
 			final TableRow<Member> row = new TableRow<>();
@@ -86,7 +96,7 @@ public class ViewList {
 		Button Verbose = new Button("Verbose List");
 		// Set All Buttons to the same size.
 		AddMember.setMaxWidth(Double.MAX_VALUE);
-		
+
 		Button Save = new Button("Save");
 		Save.setMaxWidth(Double.MAX_VALUE);
 		AddMember.setId("btnLogin");
@@ -136,8 +146,6 @@ public class ViewList {
 		borderPane.setTop(topLayout);
 	}
 
-
-
 	@SuppressWarnings("unchecked")
 	private void buildtabelview() {
 		BorderPane center = new BorderPane();
@@ -156,37 +164,40 @@ public class ViewList {
 		center.setCenter(vbox);
 		borderPane.setCenter(vbox);
 	}
-	
+
 	// right click menu for the member-table (UI)
 	private void getmenu(TableRow<Member> row) {
 		final ContextMenu contextMenu = new ContextMenu();
 		final MenuItem removeMenuItem = new MenuItem("Remove Member");
 		final MenuItem EditMenuItem = new MenuItem("Edit Member");
 		final MenuItem ViewMember = new MenuItem("View Member");
-		
+
 		// Action when user select "Remove Member" from the contextMenu
 		removeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Member member = (Member) table.getSelectionModel().getSelectedItem();
+				Member member = Program.yachtClub.getMemberByIndex(table.getSelectionModel().getSelectedIndex());
+				member = (Member) table.getSelectionModel().getSelectedItem();
 				removeMember(member);
 			}
 		});
-		
+
 		// Action when user select "Edit Member" from the contextMenu
 		EditMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Member member = (Member) table.getSelectionModel().getSelectedItem();
+				Member member = Program.yachtClub.getMemberByIndex(table.getSelectionModel().getSelectedIndex());
+				member = (Member) table.getSelectionModel().getSelectedItem();
 				editMember(member);
 			}
 		});
-		
+
 		// Action when user select "View Member" from the contextMenu
 		ViewMember.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Member member = (Member) table.getSelectionModel().getSelectedItem();
+				Member member = Program.yachtClub.getMemberByIndex(table.getSelectionModel().getSelectedIndex());
+				member = (Member) table.getSelectionModel().getSelectedItem();
 				viewMember(member);
 			}
 		});
@@ -214,21 +225,18 @@ public class ViewList {
 
 	}
 
-
 	private void addMember() {
-		int oldSizeMemberList = Program.yachtClub.getMemberList().size();
+		int oldSizeMemberList = Program.yachtClub.getNumberOfMembers();
 		m_handler.createPopup(null);
-		if (oldSizeMemberList < Program.yachtClub.getMemberList().size()) {
-			data.add(Program.yachtClub.getMemberList().get(oldSizeMemberList));
-			// data.removeAll(data);
-			// data.addAll(Main.yachtClub.getMemberList().getMembers());
+		if (oldSizeMemberList < Program.yachtClub.getNumberOfMembers()) {
+			memberData.add(Program.yachtClub.getMemberByIndex(oldSizeMemberList));
 		}
 		table.refresh();
 	}
 
 	private void removeMember(Member member) {
-		data.remove(member);
-		Program.yachtClub.removeMember(member);
+		memberData.remove(member);
+		Program.yachtClub.removeMember(member.getId());
 		table.refresh();
 
 	}

@@ -24,8 +24,10 @@ public class Boat {
 	public Boat(Type Type, double Length, int OwnerID) {
 		id = IDstatic++;
 		setType(Type);
-		setLength(Length);
-		setOwnerId(OwnerID);
+		if (Length >= 1)
+			setLength(Length);
+		if (OwnerID > 0)
+			setOwnerId(OwnerID);
 
 	}
 
@@ -34,7 +36,8 @@ public class Boat {
 	}
 
 	public void setLength(double Length) {
-		length = Length;
+		if (Length >= 1)
+			length = Length;
 	}
 
 	public Type getType() {
@@ -50,7 +53,8 @@ public class Boat {
 	}
 
 	public void setOwnerId(int ownerId) {
-		this.ownerId = ownerId;
+		if (ownerId > 0)
+			this.ownerId = ownerId;
 	}
 
 	public int getId() {

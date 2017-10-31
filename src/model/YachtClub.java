@@ -2,40 +2,51 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "yachtClub")
 public class YachtClub {
+	@XmlElement(name = "memberList")
 	private List<Member> memberList;
 
-	// private BoatList boatList ;
 	public YachtClub() {
 		memberList = new ArrayList<Member>();
-		// boatList = new BoatList();
-	}
-
-	public List<Member> getMemberList() {
-		return memberList;
-	}
-
-	public void setMemberList(List<Member> MemberList) {
-		this.memberList = MemberList;
 	}
 
 	public void addMember(Member Member) {
 		memberList.add(Member);
 	}
 
-	public void removeMember(Member member) {
-		memberList.remove(member);
+	public void removeMember(int ID) {
+		Member m = getMemberById(ID);
+		if (m != null)
+			memberList.remove(getMemberById(ID));
 
 	}
 
-	public void editMember(Member oldMember, Member newMember) {
-		oldMember.copyOf(newMember);
+	public void editMember(int oldMemberId, Member newMember) {
+		Member oldMember = getMemberById(oldMemberId);
+		if (oldMember != null)
+			oldMember.copyOf(newMember);
 	}
 
-	public Member getMember(int ID) {
+	public void removeAllMembers() {
+		this.memberList.removeAll(memberList);
+	}
+
+	public void addAllMembers(List<Member> MemberList) {
+		this.memberList.addAll(MemberList);
+	}
+
+	public Member getMemberByIndex(int index) {
+		if (index < getNumberOfMembers() && index > -1)
+			return memberList.get(index);
+		return null;
+	}
+
+	public Member getMemberById(int ID) {
 		for (Member Member : memberList)
 			if (Member.getId() == ID)
 				return Member;
