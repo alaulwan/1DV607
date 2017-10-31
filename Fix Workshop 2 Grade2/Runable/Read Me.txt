@@ -1,0 +1,24 @@
+
+
+The runable program is stored as a jar file named "YachtClub.jar". The program tested on WINDOWS and MAC.
+To run the program:
+There are many ways to run the program:
+
+On windows:
+- first way: duble click on the jar file named "YachtClub.jar".
+Or
+- second way: duble click on the batch file named "YachtClub.bat".
+Or
+- Third way: in a console, in the same directory as YachtClub.jar is stored, type "java -jar YachtClub.jar"
+
+On Mac:
+- first way: duble click on the jar file named "YachtClub.jar".
+Or
+- second way: in a console, in the same directory as YachtClub.jar is stored, type "java -jar YachtClub.jar"
+
+Requirement:
+It requires a JRE-8 (Java Runtime Environment) or later to be installed on your host machine. You find the latest version to download at https://www.java.com/inc/BrowserRedirect1.jsp?locale=en
+
+
+Note: The database is a file named "yachtClub.xml" will be created  in the same folder as "YachtClub.jar" is located.
+
